@@ -1,0 +1,15 @@
+name: "Example Game"
+type: "idle"
+capture:
+  window_title: null      # PC 게임이면 창 제목 부분 문자열 (예: "NIGHT CROW")
+  adb_serial: null        # 모바일이면 adb 기기 시리얼 (단일 기기면 null)
+templates:
+  - id: "play_button"
+    image: "templates/example/play_button.png"
+    region: [800, 1500, 1000, 1700]
+ocr_regions:
+  - id: "stage"
+    region: [50, 100, 300, 150]
+    numeric: true
+analysis_prompts:
+  detect_anomaly: "이 게임 세션에서 이상 징후를 분석하라."
