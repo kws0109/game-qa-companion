@@ -61,6 +61,7 @@ def match_template(frame_png: bytes, template_png: bytes,
         l, t, r, b = region
         frame = frame[t:b, l:r]
         off_x, off_y = l, t
-    res = cv2.matchTemplate(frame, tpl, cv2.TM_CCOEFF_NORMED)
-    _, score, _, loc = cv2.minMaxLoc(res)
-    return float(score), (loc[0] + off_x, loc[1] + off_y)
+    # TM_SQDIFF_NORMED: 균일색(flat) 템플릿에서도 동작 (CCOEFF 계열은 분산 0이면 무의미)
+    res = cv2.matchTemplate(frame, tpl, cv2.TM_SQDIFF_NORMED)
+    min_val, _, min_loc, _ = cv2.minMaxLoc(res)
+    return float(1.0 - min_val), (min_loc[0] + off_x, min_loc[1] + off_y)
