@@ -1,0 +1,13 @@
+name: "Night Crows"
+type: "mmorpg"
+capture:
+  window_title: "NIGHT CROW"   # 실제 창 제목 "NIGHT CROW(1)" — 부분 일치로 suffix 흡수
+  adb_serial: null
+templates: []
+ocr_regions: []
+analysis_prompts:
+  detect_anomaly: >
+    이 게임은 PC·모바일 크로스 플랫폼 MMORPG다. 사람이 직접 플레이한 세션을 관찰한 것이다.
+    전투·이동·퀘스트 진행·로딩·UI 전환 흐름에서 이상 징후(진행 정체, 로딩 무한 대기,
+    UI 겹침·깨짐, 캐릭터·카메라 비정상 상태)를 판단하라. 일반적인 컷신·대기 화면·메뉴 체류는
+    정상으로 분류할 것.
