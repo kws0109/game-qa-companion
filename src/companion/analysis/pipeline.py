@@ -58,12 +58,20 @@ def collect_signals(session_dir: str | Path, config: GameConfig,
 
 
 def analyze_session(session_dir: str | Path, config: GameConfig,
-                    provider: LLMProvider, ocr_engine=None) -> dict:
+                    provider: LLMProvider, ocr_engine=None,
+                    max_candidates: int = 10) -> dict:
+    """max_candidates: LLM 호출 비용 상한 — 신호가 넘치면 지속 시간이 긴 것부터 상위 N건만 판정."""
     d = Path(session_dir)
     m = Manifest.load(d)
     game_prompt = config.analysis_prompts.get("detect_anomaly", "이상 징후를 판단하라.")
+    signals = collect_signals(d, config, ocr_engine)
+    if len(signals) > max_candidates:
+        signals.sort(key=lambda s: s.get("end_t", s.get("t", 0)) - s.get("start_t", s.get("t", 0)),
+                     reverse=True)
+        print(f"[info] {len(signals)} signals found - judging top {max_candidates} by duration")
+        signals = signals[:max_candidates]
     candidates = []
-    for sig in collect_signals(d, config, ocr_engine):
+    for sig in signals:
         evidence = sig.pop("frames")
         prompt = _PROMPT_TMPL.format(game=m.game, game_prompt=game_prompt,
                                      signal=json.dumps(sig, ensure_ascii=False))

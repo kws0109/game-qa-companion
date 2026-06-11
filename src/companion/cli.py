@@ -29,6 +29,8 @@ def build_parser() -> argparse.ArgumentParser:
     an.add_argument("--game", required=True)
     an.add_argument("--provider", choices=["claude", "fake"], default="claude")
     an.add_argument("--ocr", action="store_true", help="OCR 수치 시계열 신호 활성화")
+    an.add_argument("--max-candidates", type=int, default=10,
+                    help="LLM 판정 후보 수 상한 (비용 통제, 긴 신호 우선)")
 
     ask_p = sub.add_parser("ask", help="세션 분석 결과에 자연어 질의")
     ask_p.add_argument("--session", required=True)
@@ -70,7 +72,8 @@ def main(argv: list[str] | None = None) -> None:
         if args.ocr:
             from companion.vision.ocr import OcrEngine
             engine = OcrEngine()
-        result = analyze_session(args.session, cfg, provider, ocr_engine=engine)
+        result = analyze_session(args.session, cfg, provider, ocr_engine=engine,
+                                 max_candidates=args.max_candidates)
         report = render_report(args.session)
         print(f"candidates: {len(result['candidates'])} / report: {report}")
     elif args.command == "ask":
