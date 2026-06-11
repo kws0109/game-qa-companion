@@ -57,22 +57,28 @@ def record_session(grabber: Grabber, base_dir: str | Path, *, game: str, source:
                         interval=interval)
     t0 = time.monotonic()
     i = 0
-    while True:
-        if max_frames is not None and i >= max_frames:
-            break
-        now = time.monotonic() - t0
-        if duration is not None and now >= duration:
-            break
-        try:
-            png = grabber.grab()
-        except Exception as e:  # 한 프레임 실패가 세션을 죽이지 않게
-            print(f"[warn] grab failed at t={now:.1f}s: {e}")
-            time.sleep(interval)
-            continue
-        name = f"frames/frame_{i:06d}.png"
-        (session_dir / name).write_bytes(png)
-        manifest.add_frame(name, round(now, 3))
-        manifest.save(session_dir)
-        i += 1
-        time.sleep(max(0.0, interval - ((time.monotonic() - t0) - now)))
+    try:
+        while True:
+            if max_frames is not None and i >= max_frames:
+                break
+            now = time.monotonic() - t0
+            if duration is not None and now >= duration:
+                break
+            try:
+                png = grabber.grab()
+            except KeyboardInterrupt:
+                raise
+            except Exception as e:  # 한 프레임 실패가 세션을 죽이지 않게
+                print(f"[warn] grab failed at t={now:.1f}s: {e}")
+                time.sleep(interval)
+                continue
+            name = f"frames/frame_{i:06d}.png"
+            (session_dir / name).write_bytes(png)
+            manifest.add_frame(name, round(now, 3))
+            manifest.save(session_dir)
+            i += 1
+            time.sleep(max(0.0, interval - ((time.monotonic() - t0) - now)))
+    except KeyboardInterrupt:
+        # Ctrl+C = 세션 조기 종료. 지금까지의 프레임·manifest는 이미 저장돼 있음.
+        print(f"\n[info] capture stopped by user - {i} frames kept")
     return session_dir
