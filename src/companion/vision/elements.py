@@ -99,49 +99,69 @@ def _straightness(edge_roi: np.ndarray) -> float:
 
 def detect_boxes(png: bytes, *, min_side: int = 24, max_area_ratio: float = 0.3,
                  mask: np.ndarray | None = None, mask_coverage: float = 0.6,
-                 min_straightness: float = 0.0) -> list[tuple[int, int, int, int]]:
+                 min_straightness: float = 0.0,
+                 enhance_contrast: bool = True) -> list[tuple[int, int, int, int]]:
     """엣지 기반 사각 UI 요소 후보 검출.
 
     필터: mask(시간축 안정 영역과 60% 이상 겹침). min_straightness는 실험용 —
     나이트 크로우 실측에서 반투명 UI를 죽이고 텍스처를 못 걸러 기본 비활성(0).
+    enhance_contrast: 배경과 색이 비슷한 저대비 UI 보강 — CLAHE 증폭 + 민감 임계
+    엣지를 합집합. 노이즈도 늘지만 마스크·LLM unknown 제거가 후단에서 받아낸다.
     """
     img = _decode(png)
     h, w = img.shape[:2]
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    edges_raw = cv2.Canny(gray, 50, 150)
-    edges = cv2.dilate(edges_raw, np.ones((3, 3), np.uint8))
-    contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+    def _pass(edges_raw: np.ndarray) -> list[tuple[int, int, int, int]]:
+        """한 엣지맵에서 후보 추출 — 패스 간 독립이라 민감 패스 노이즈가 표준 패스를 못 망침."""
+        edges = cv2.dilate(edges_raw, np.ones((3, 3), np.uint8))
+        contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        rects = []
+        for c in contours:
+            x, y, bw, bh = cv2.boundingRect(c)
+            if bw < min_side or bh < min_side:
+                continue
+            if bw * bh > max_area_ratio * w * h:
+                continue
+            # bbox 타이트닝 — dilate로 부푼 박스를 원시 엣지 기준으로 조여 영역 오차 제거
+            roi = edges_raw[y:y + bh, x:x + bw]
+            ys, xs = np.nonzero(roi)
+            if len(xs):
+                nx, ny = x + int(xs.min()), y + int(ys.min())
+                nr, nb = x + int(xs.max()) + 1, y + int(ys.max()) + 1
+                if nr - nx >= min_side and nb - ny >= min_side:
+                    x, y, bw, bh = nx, ny, nr - nx, nb - ny
+            if min_straightness > 0 and \
+                    _straightness(edges_raw[y:y + bh, x:x + bw]) < min_straightness:
+                continue  # 축 정렬 테두리 없음 — 유기적 형태(월드 오브젝트)로 판단
+            rects.append((x, y, x + bw, y + bh))
+        return rects
+
+    base_edges = cv2.Canny(gray, 50, 150)
+    raw_cand = [(r, 0) for r in _pass(base_edges)]  # prio 0 = 표준 패스
+    if enhance_contrast:
+        # clip 8.0 + 20/60: 합성 저대비 패널(Δ6) 회수 실측값. 독립 패스라 추가 전용.
+        clahe = cv2.createCLAHE(clipLimit=8.0, tileGridSize=(8, 8))
+        raw_cand += [(r, 1) for r in _pass(cv2.Canny(clahe.apply(gray), 20, 60))]
+
     cand = []
-    for c in contours:
-        x, y, bw, bh = cv2.boundingRect(c)
-        if bw < min_side or bh < min_side:
-            continue
-        if bw * bh > max_area_ratio * w * h:
-            continue
-        # bbox 타이트닝 — dilate로 부푼 박스를 원시 엣지 기준으로 조여 영역 오차 제거
-        roi = edges_raw[y:y + bh, x:x + bw]
-        ys, xs = np.nonzero(roi)
-        if len(xs):
-            nx, ny = x + int(xs.min()), y + int(ys.min())
-            nr, nb = x + int(xs.max()) + 1, y + int(ys.max()) + 1
-            if nr - nx >= min_side and nb - ny >= min_side:
-                x, y, bw, bh = nx, ny, nr - nx, nb - ny
+    if mask is not None:
+        mh, mw = mask.shape[:2]
+        if (mh, mw) != (h, w):
+            mask = cv2.resize(mask, (w, h), interpolation=cv2.INTER_NEAREST)
+    for (x1, y1, x2, y2), prio in raw_cand:
         if mask is not None:
-            mh, mw = mask.shape[:2]
-            if (mh, mw) != (h, w):
-                mask = cv2.resize(mask, (w, h), interpolation=cv2.INTER_NEAREST)
-            region = mask[y:y + bh, x:x + bw]
+            region = mask[y1:y2, x1:x2]
             if float(np.mean(region > 0)) < mask_coverage:
                 continue  # 월드(가변 영역) 위의 박스 — 버림
-        if min_straightness > 0 and \
-                _straightness(edges_raw[y:y + bh, x:x + bw]) < min_straightness:
-            continue  # 축 정렬 테두리 없음 — 유기적 형태(월드 오브젝트)로 판단
-        cand.append((x, y, x + bw, y + bh))
+        cand.append(((x1, y1, x2, y2), prio))
     kept: list[tuple] = []
-    for b in sorted(cand, key=lambda b: (b[2] - b[0]) * (b[3] - b[1]), reverse=True):
+    kept_prio: list[int] = []
+    # 표준 패스 우선(중복 시 halo 없는 박스 유지), 패스 안에서는 큰 것 우선(중첩 판정용)
+    for b, prio in sorted(cand, key=lambda c: (c[1], -(c[0][2] - c[0][0]) * (c[0][3] - c[0][1]))):
         area_b = (b[2] - b[0]) * (b[3] - b[1])
         dup = False
-        for k in kept:
+        for k, k_prio in zip(kept, kept_prio):
             il, it = max(b[0], k[0]), max(b[1], k[1])
             ir, ib = min(b[2], k[2]), min(b[3], k[3])
             inter = max(0, ir - il) * max(0, ib - it)
@@ -156,8 +176,14 @@ def detect_boxes(png: bytes, *, min_side: int = 24, max_area_ratio: float = 0.3,
             if inter / area_b >= 0.9 and area_b >= 0.5 * area_k:
                 dup = True
                 break
+            # 민감(CLAHE) 패스 후보가 표준 박스 안에 완전 포함 = 타일 아티팩트 조각.
+            # 민감 패스의 역할은 표준이 통째로 놓친 요소 회수다 — 설명된 영역 내부는 버림.
+            if prio == 1 and k_prio == 0 and inter / area_b >= 0.9:
+                dup = True
+                break
         if not dup:
             kept.append(b)
+            kept_prio.append(prio)
     kept.sort(key=lambda b: (b[1], b[0]))  # 좌상단 순 — id 안정성
     return kept
 
