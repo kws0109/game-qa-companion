@@ -59,24 +59,42 @@ def collect_signals(session_dir: str | Path, config: GameConfig,
 
 def analyze_session(session_dir: str | Path, config: GameConfig,
                     provider: LLMProvider, ocr_engine=None,
-                    max_candidates: int = 10) -> dict:
-    """max_candidates: LLM 호출 비용 상한 — 신호가 넘치면 지속 시간이 긴 것부터 상위 N건만 판정."""
+                    max_candidates: int = 10,
+                    progress=None, cancel=None) -> dict:
+    """max_candidates: LLM 호출 비용 상한 — 신호가 넘치면 지속 시간이 긴 것부터 상위 N건만 판정.
+
+    progress(msg, pct)·cancel() 은 선택 — GUI가 진행 표시·협조적 취소에 사용.
+    """
+    def _p(msg: str, pct: int = -1) -> None:
+        if progress:
+            progress(msg, pct)
+
+    def _check_cancel() -> None:
+        if cancel and cancel():
+            raise RuntimeError("사용자가 분석을 중단했습니다")
+
     d = Path(session_dir)
     m = Manifest.load(d)
     game_prompt = config.analysis_prompts.get("detect_anomaly", "이상 징후를 판단하라.")
+    _p("신호 수집 중 (룰 기반 1차 필터" + (" + OCR 시계열" if ocr_engine else "") + ")…", 10)
     signals = collect_signals(d, config, ocr_engine)
+    _check_cancel()
     if len(signals) > max_candidates:
         signals.sort(key=lambda s: s.get("end_t", s.get("t", 0)) - s.get("start_t", s.get("t", 0)),
                      reverse=True)
         print(f"[info] {len(signals)} signals found - judging top {max_candidates} by duration")
         signals = signals[:max_candidates]
     candidates = []
-    for sig in signals:
+    for i, sig in enumerate(signals, 1):
+        _check_cancel()
+        _p(f"후보 {i}/{len(signals)} LLM 판정 중… (호출 중에는 완료 후 중단됨)",
+           20 + int(70 * (i - 1) / max(1, len(signals))))
         evidence = sig.pop("frames")
         prompt = _PROMPT_TMPL.format(game=m.game, game_prompt=game_prompt,
                                      signal=json.dumps(sig, ensure_ascii=False))
         raw = provider.run(prompt, images=[d / e for e in evidence])
         candidates.append({"signal": sig, "evidence": evidence, "llm": _parse_llm(raw)})
+    _p("결과 저장 중…", 95)
     result = {"game": m.game, "source": m.source, "started_at": m.started_at,
               "frame_count": len(m.frames), "candidates": candidates}
     (d / "analysis.json").write_text(json.dumps(result, ensure_ascii=False, indent=2),

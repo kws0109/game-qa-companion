@@ -1,0 +1,4180 @@
+{
+  "elements": [
+    {
+      "id": 1,
+      "kind": "text",
+      "label": "파일",
+      "bbox": [
+        4050,
+        21,
+        4091,
+        46
+      ],
+      "center": [
+        4070,
+        33
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 2,
+      "kind": "text",
+      "label": "Ø3",
+      "bbox": [
+        3939,
+        22,
+        3982,
+        46
+      ],
+      "center": [
+        3960,
+        34
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 3,
+      "kind": "text",
+      "label": "v",
+      "bbox": [
+        3986,
+        22,
+        4026,
+        46
+      ],
+      "center": [
+        4006,
+        34
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 4,
+      "kind": "text",
+      "label": "project_qa / Mad Engine QA job application",
+      "bbox": [
+        3025,
+        27,
+        3360,
+        49
+      ],
+      "center": [
+        3192,
+        38
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 5,
+      "kind": "text",
+      "label": "'= Cowork",
+      "bbox": [
+        2794,
+        42,
+        2883,
+        64
+      ],
+      "center": [
+        2838,
+        53
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 6,
+      "kind": "text",
+      "label": "< Code",
+      "bbox": [
+        2904,
+        42,
+        2976,
+        66
+      ],
+      "center": [
+        2940,
+        54
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 7,
+      "kind": "text",
+      "label": "Chat",
+      "bbox": [
+        2728,
+        44,
+        2771,
+        63
+      ],
+      "center": [
+        2749,
+        53
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 8,
+      "kind": "text",
+      "label": "Q)",
+      "bbox": [
+        2707,
+        45,
+        2728,
+        62
+      ],
+      "center": [
+        2717,
+        53
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 9,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        109,
+        47,
+        214,
+        104
+      ],
+      "center": [
+        161,
+        75
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 10,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        51,
+        56,
+        82,
+        110
+      ],
+      "center": [
+        66,
+        83
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 11,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2755,
+        59,
+        2842,
+        93
+      ],
+      "center": [
+        2798,
+        76
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 12,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        224,
+        64,
+        308,
+        105
+      ],
+      "center": [
+        266,
+        84
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 13,
+      "kind": "text",
+      "label": "□",
+      "bbox": [
+        4959,
+        71,
+        4984,
+        93
+      ],
+      "center": [
+        4971,
+        82
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 14,
+      "kind": "text",
+      "label": "×",
+      "bbox": [
+        5010,
+        71,
+        5034,
+        93
+      ],
+      "center": [
+        5022,
+        82
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 15,
+      "kind": "text",
+      "label": "오탐삭제",
+      "bbox": [
+        3053,
+        73,
+        3127,
+        100
+      ],
+      "center": [
+        3090,
+        86
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 16,
+      "kind": "text",
+      "label": "이미지에서 박스 클릭(빨간 테두리로 선택됨)",
+      "bbox": [
+        3219,
+        77,
+        3534,
+        95
+      ],
+      "center": [
+        3376,
+        86
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 17,
+      "kind": "text",
+      "label": "Game QA Companion",
+      "bbox": [
+        3540,
+        78,
+        3715,
+        107
+      ],
+      "center": [
+        3627,
+        92
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 18,
+      "kind": "box",
+      "label": "캡처",
+      "bbox": [
+        3271,
+        86,
+        5112,
+        929
+      ],
+      "center": [
+        4191,
+        507
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 19,
+      "kind": "text",
+      "label": "New session",
+      "bbox": [
+        2713,
+        88,
+        2810,
+        113
+      ],
+      "center": [
+        2761,
+        100
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 20,
+      "kind": "text",
+      "label": "+",
+      "bbox": [
+        2697,
+        95,
+        2708,
+        107
+      ],
+      "center": [
+        2702,
+        101
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 21,
+      "kind": "text",
+      "label": "이미지빈곳을드래그→새박스생성",
+      "bbox": [
+        3213,
+        114,
+        3473,
+        132
+      ],
+      "center": [
+        3343,
+        123
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 22,
+      "kind": "text",
+      "label": "누락요소추가",
+      "bbox": [
+        3049,
+        116,
+        3154,
+        138
+      ],
+      "center": [
+        3101,
+        127
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 23,
+      "kind": "text",
+      "label": "Routines",
+      "bbox": [
+        2714,
+        123,
+        2780,
+        141
+      ],
+      "center": [
+        2747,
+        132
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 24,
+      "kind": "text",
+      "label": "4",
+      "bbox": [
+        2693,
+        126,
+        2705,
+        139
+      ],
+      "center": [
+        2699,
+        132
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 25,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1994,
+        138,
+        2114,
+        728
+      ],
+      "center": [
+        2054,
+        433
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 26,
+      "kind": "text",
+      "label": "Customize",
+      "bbox": [
+        2710,
+        152,
+        2788,
+        170
+      ],
+      "center": [
+        2749,
+        161
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 27,
+      "kind": "text",
+      "label": "요소 선택→\"박스 다시 그리기\"켜고 새 영역",
+      "bbox": [
+        3206,
+        153,
+        3523,
+        171
+      ],
+      "center": [
+        3364,
+        162
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 28,
+      "kind": "text",
+      "label": "박스위치·크기교정",
+      "bbox": [
+        3044,
+        154,
+        3178,
+        172
+      ],
+      "center": [
+        3111,
+        163
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 29,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1242,
+        161,
+        1294,
+        192
+      ],
+      "center": [
+        1268,
+        176
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 30,
+      "kind": "text",
+      "label": "더보기",
+      "bbox": [
+        2707,
+        180,
+        2755,
+        199
+      ],
+      "center": [
+        2731,
+        189
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 31,
+      "kind": "text",
+      "label": "테이블의종류/라벨셀더블클릭",
+      "bbox": [
+        3201,
+        189,
+        3429,
+        212
+      ],
+      "center": [
+        3315,
+        200
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 32,
+      "kind": "text",
+      "label": "이름·종류수정",
+      "bbox": [
+        3039,
+        192,
+        3144,
+        213
+      ],
+      "center": [
+        3091,
+        202
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 33,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1270,
+        203,
+        1311,
+        230
+      ],
+      "center": [
+        1290,
+        216
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 34,
+      "kind": "text",
+      "label": "\"변경저장\"→elements.son·주석이미지·크",
+      "bbox": [
+        3197,
+        226,
+        3515,
+        252
+      ],
+      "center": [
+        3356,
+        239
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 35,
+      "kind": "text",
+      "label": "반영",
+      "bbox": [
+        3032,
+        229,
+        3072,
+        253
+      ],
+      "center": [
+        3052,
+        241
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 36,
+      "kind": "text",
+      "label": "2",
+      "bbox": [
+        2939,
+        234,
+        2957,
+        252
+      ],
+      "center": [
+        2948,
+        243
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 37,
+      "kind": "text",
+      "label": "Recents",
+      "bbox": [
+        2675,
+        238,
+        2730,
+        252
+      ],
+      "center": [
+        2702,
+        245
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 38,
+      "kind": "text",
+      "label": "Mad Engine QA job application",
+      "bbox": [
+        2696,
+        261,
+        2911,
+        286
+      ],
+      "center": [
+        2803,
+        273
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 39,
+      "kind": "text",
+      "label": "설계포인트둘:",
+      "bbox": [
+        3022,
+        273,
+        3130,
+        294
+      ],
+      "center": [
+        3076,
+        283
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 40,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        39,
+        274,
+        189,
+        414
+      ],
+      "center": [
+        114,
+        344
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 41,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        300,
+        276,
+        393,
+        317
+      ],
+      "center": [
+        346,
+        296
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 42,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        953,
+        279,
+        980,
+        303
+      ],
+      "center": [
+        966,
+        291
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 43,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        953,
+        291,
+        1160,
+        543
+      ],
+      "center": [
+        1056,
+        417
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 44,
+      "kind": "text",
+      "label": "Enchant creator channel analysis",
+      "bbox": [
+        2694,
+        292,
+        2924,
+        313
+      ],
+      "center": [
+        2809,
+        302
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 45,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        291,
+        295,
+        357,
+        332
+      ],
+      "center": [
+        324,
+        313
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 46,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        205,
+        296,
+        241,
+        322
+      ],
+      "center": [
+        223,
+        309
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 47,
+      "kind": "text",
+      "label": "이미지와테이블이 양방향동기화됩니다-이미지에서박스를클릭",
+      "bbox": [
+        3035,
+        302,
+        3505,
+        325
+      ],
+      "center": [
+        3270,
+        313
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 48,
+      "kind": "text",
+      "label": "DreamAge QA interview prep",
+      "bbox": [
+        2692,
+        324,
+        2895,
+        341
+      ],
+      "center": [
+        2793,
+        332
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 49,
+      "kind": "text",
+      "label": "택됩니다(큰패널안의버튼을 집을수있게).",
+      "bbox": [
+        3035,
+        324,
+        3337,
+        347
+      ],
+      "center": [
+        3186,
+        335
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 50,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1253,
+        327,
+        1284,
+        353
+      ],
+      "center": [
+        1268,
+        340
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 51,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        207,
+        331,
+        285,
+        360
+      ],
+      "center": [
+        246,
+        345
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 52,
+      "kind": "text",
+      "label": "Roadnine Global PM job description",
+      "bbox": [
+        2691,
+        350,
+        2933,
+        370
+      ],
+      "center": [
+        2812,
+        360
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 53,
+      "kind": "text",
+      "label": "\"확정등록\"을누르면 미저장 변경을자동저장합니다-수동으로그",
+      "bbox": [
+        3031,
+        351,
+        3496,
+        375
+      ],
+      "center": [
+        3263,
+        363
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 54,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        207,
+        369,
+        320,
+        396
+      ],
+      "center": [
+        263,
+        382
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 55,
+      "kind": "text",
+      "label": "칭이 작동하기 때문입니다",
+      "bbox": [
+        3032,
+        374,
+        3215,
+        397
+      ],
+      "center": [
+        3123,
+        385
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 56,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1225,
+        377,
+        1309,
+        434
+      ],
+      "center": [
+        1267,
+        405
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 57,
+      "kind": "text",
+      "label": "Development PM job application",
+      "bbox": [
+        2692,
+        381,
+        2912,
+        399
+      ],
+      "center": [
+        2802,
+        390
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 58,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1198,
+        392,
+        1226,
+        430
+      ],
+      "center": [
+        1212,
+        411
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 59,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1307,
+        399,
+        1334,
+        427
+      ],
+      "center": [
+        1320,
+        413
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 60,
+      "kind": "text",
+      "label": "DRIMAGE game QA job description",
+      "bbox": [
+        2692,
+        410,
+        2927,
+        428
+      ],
+      "center": [
+        2809,
+        419
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 61,
+      "kind": "text",
+      "label": "이로써 워크플로우가완전해졌습니다: 자동검출→사람이 오탐 제거·누",
+      "bbox": [
+        3011,
+        410,
+        3485,
+        428
+      ],
+      "center": [
+        3248,
+        419
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 62,
+      "kind": "text",
+      "label": "\"AI가 제안하고 사람이 정답을 소유한다\"는 구조가 도구 전체에 일관되>",
+      "bbox": [
+        3008,
+        432,
+        3485,
+        450
+      ],
+      "center": [
+        3246,
+        441
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 63,
+      "kind": "text",
+      "label": "Generic cover letter template",
+      "bbox": [
+        2691,
+        440,
+        2889,
+        456
+      ],
+      "center": [
+        2790,
+        448
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 64,
+      "kind": "text",
+      "label": "C",
+      "bbox": [
+        2674,
+        446,
+        2680,
+        453
+      ],
+      "center": [
+        2677,
+        449
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 65,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1357,
+        453,
+        1397,
+        540
+      ],
+      "center": [
+        1377,
+        496
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 66,
+      "kind": "text",
+      "label": "테스트 49개 통과,커밋 18개",
+      "bbox": [
+        3005,
+        454,
+        3196,
+        472
+      ],
+      "center": [
+        3100,
+        463
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 67,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1151,
+        460,
+        1213,
+        515
+      ],
+      "center": [
+        1182,
+        487
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 68,
+      "kind": "text",
+      "label": "CCG project job application",
+      "bbox": [
+        2691,
+        468,
+        2876,
+        486
+      ],
+      "center": [
+        2783,
+        477
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 69,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1325,
+        471,
+        1356,
+        517
+      ],
+      "center": [
+        1340,
+        494
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 70,
+      "kind": "text",
+      "label": "써보시고-특히겹친박스선택감과드래그정밀도-어색하면알려주",
+      "bbox": [
+        3003,
+        486,
+        3480,
+        504
+      ],
+      "center": [
+        3241,
+        495
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 71,
+      "kind": "text",
+      "label": "Create portfolio for MCN operations",
+      "bbox": [
+        2689,
+        498,
+        2932,
+        514
+      ],
+      "center": [
+        2810,
+        506
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 72,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1304,
+        499,
+        1339,
+        532
+      ],
+      "center": [
+        1321,
+        515
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 73,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        91,
+        500,
+        145,
+        556
+      ],
+      "center": [
+        118,
+        528
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 74,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        207,
+        509,
+        291,
+        541
+      ],
+      "center": [
+        249,
+        525
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 75,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        300,
+        509,
+        356,
+        542
+      ],
+      "center": [
+        328,
+        525
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 76,
+      "kind": "text",
+      "label": "Document design solution with Clauc",
+      "bbox": [
+        2687,
+        526,
+        2934,
+        544
+      ],
+      "center": [
+        2810,
+        535
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 77,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1262,
+        537,
+        1298,
+        569
+      ],
+      "center": [
+        1280,
+        553
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 78,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1324,
+        544,
+        1400,
+        596
+      ],
+      "center": [
+        1362,
+        570
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 79,
+      "kind": "text",
+      "label": "Build manager portfolio markdown",
+      "bbox": [
+        2685,
+        555,
+        2915,
+        572
+      ],
+      "center": [
+        2800,
+        563
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 80,
+      "kind": "text",
+      "label": "ocr 체크 하고 진행 시 ModuleNotFoundError. No module named 'p",
+      "bbox": [
+        3009,
+        557,
+        3474,
+        581
+      ],
+      "center": [
+        3241,
+        569
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 81,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1084,
+        559,
+        1119,
+        711
+      ],
+      "center": [
+        1101,
+        635
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 82,
+      "kind": "text",
+      "label": "o",
+      "bbox": [
+        2669,
+        561,
+        2678,
+        570
+      ],
+      "center": [
+        2673,
+        565
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 83,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1388,
+        565,
+        1443,
+        698
+      ],
+      "center": [
+        1415,
+        631
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 84,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1242,
+        566,
+        1275,
+        609
+      ],
+      "center": [
+        1258,
+        587
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 85,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1198,
+        572,
+        1263,
+        620
+      ],
+      "center": [
+        1230,
+        596
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 86,
+      "kind": "text",
+      "label": "Connecting Git repos to Claude",
+      "bbox": [
+        2679,
+        584,
+        2893,
+        602
+      ],
+      "center": [
+        2786,
+        593
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 87,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2400,
+        601,
+        2448,
+        652
+      ],
+      "center": [
+        2424,
+        626
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 88,
+      "kind": "text",
+      "label": "General coding session",
+      "bbox": [
+        2673,
+        612,
+        2833,
+        629
+      ],
+      "center": [
+        2753,
+        620
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 89,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2334,
+        622,
+        2394,
+        650
+      ],
+      "center": [
+        2364,
+        636
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 90,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1141,
+        625,
+        1169,
+        663
+      ],
+      "center": [
+        1155,
+        644
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 91,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1111,
+        630,
+        1147,
+        714
+      ],
+      "center": [
+        1129,
+        672
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 92,
+      "kind": "text",
+      "label": "paddleocr는 선택 의존성이라 기본 설치에안들어있습니다(용량이",
+      "bbox": [
+        2994,
+        630,
+        3465,
+        647
+      ],
+      "center": [
+        3229,
+        638
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 93,
+      "kind": "text",
+      "label": "Build workflow automation portfolio",
+      "bbox": [
+        2670,
+        638,
+        2921,
+        657
+      ],
+      "center": [
+        2795,
+        647
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 94,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1361,
+        642,
+        1398,
+        721
+      ],
+      "center": [
+        1379,
+        681
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 95,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1223,
+        644,
+        1338,
+        698
+      ],
+      "center": [
+        1280,
+        671
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 96,
+      "kind": "text",
+      "label": "dependencies]ocr).두가지를처리하겠습니다:①실제설치②미설",
+      "bbox": [
+        2989,
+        651,
+        3464,
+        669
+      ],
+      "center": [
+        3226,
+        660
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 97,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1336,
+        659,
+        1363,
+        686
+      ],
+      "center": [
+        1349,
+        672
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 98,
+      "kind": "text",
+      "label": "Explain casual and midcore game gen",
+      "bbox": [
+        2647,
+        666,
+        2917,
+        685
+      ],
+      "center": [
+        2782,
+        675
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 99,
+      "kind": "text",
+      "label": "시작합니다(paddle계열은 수백MB라몇분걸립니다).",
+      "bbox": [
+        2988,
+        671,
+        3360,
+        689
+      ],
+      "center": [
+        3174,
+        680
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 100,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2009,
+        675,
+        2090,
+        771
+      ],
+      "center": [
+        2049,
+        723
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 101,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1257,
+        692,
+        1299,
+        716
+      ],
+      "center": [
+        1278,
+        704
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 102,
+      "kind": "text",
+      "label": "Create POE Flask AutoHotkey macro",
+      "bbox": [
+        2662,
+        694,
+        2911,
+        714
+      ],
+      "center": [
+        2786,
+        704
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 103,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1398,
+        697,
+        1427,
+        721
+      ],
+      "center": [
+        1412,
+        709
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 104,
+      "kind": "text",
+      "label": "편집됨 파일 1개, 사용함 도구1개>",
+      "bbox": [
+        2982,
+        702,
+        3214,
+        720
+      ],
+      "center": [
+        3098,
+        711
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 105,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        91,
+        717,
+        119,
+        756
+      ],
+      "center": [
+        105,
+        736
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 106,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        340,
+        725,
+        405,
+        816
+      ],
+      "center": [
+        372,
+        770
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 107,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1169,
+        725,
+        1252,
+        760
+      ],
+      "center": [
+        1210,
+        742
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 108,
+      "kind": "text",
+      "label": "Set up live server for document editir",
+      "bbox": [
+        2659,
+        725,
+        2908,
+        742
+      ],
+      "center": [
+        2783,
+        733
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 109,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1402,
+        728,
+        1449,
+        771
+      ],
+      "center": [
+        1425,
+        749
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 110,
+      "kind": "text",
+      "label": "백그라운드 셀 완료 Install ocR optional dependencles (paddleocr",
+      "bbox": [
+        2976,
+        730,
+        3443,
+        755
+      ],
+      "center": [
+        3209,
+        742
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 111,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1970,
+        732,
+        1996,
+        762
+      ],
+      "center": [
+        1983,
+        747
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 112,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2442,
+        736,
+        2533,
+        856
+      ],
+      "center": [
+        2487,
+        796
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 113,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1093,
+        747,
+        1124,
+        783
+      ],
+      "center": [
+        1108,
+        765
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 114,
+      "kind": "text",
+      "label": "Implement combat analysis documen",
+      "bbox": [
+        2648,
+        753,
+        2903,
+        770
+      ],
+      "center": [
+        2775,
+        761
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 115,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1124,
+        754,
+        1157,
+        782
+      ],
+      "center": [
+        1140,
+        768
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 116,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1346,
+        766,
+        1438,
+        882
+      ],
+      "center": [
+        1392,
+        824
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 117,
+      "kind": "text",
+      "label": "PowerShell 사용함>",
+      "bbox": [
+        2972,
+        766,
+        3121,
+        784
+      ],
+      "center": [
+        3046,
+        775
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 118,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1029,
+        767,
+        1060,
+        802
+      ],
+      "center": [
+        1044,
+        784
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 119,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1067,
+        769,
+        1117,
+        805
+      ],
+      "center": [
+        1092,
+        787
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 120,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1424,
+        769,
+        1458,
+        818
+      ],
+      "center": [
+        1441,
+        793
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 121,
+      "kind": "text",
+      "label": "Prepare for technical interview",
+      "bbox": [
+        2651,
+        782,
+        2860,
+        798
+      ],
+      "center": [
+        2755,
+        790
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 122,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1988,
+        789,
+        2046,
+        882
+      ],
+      "center": [
+        2017,
+        835
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 123,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1074,
+        797,
+        1106,
+        837
+      ],
+      "center": [
+        1090,
+        817
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 124,
+      "kind": "text",
+      "label": "paddleocr 2.10 + paddle3.3.1-2.xAPI경로로 동작합니다. 실프레임",
+      "bbox": [
+        2968,
+        798,
+        3438,
+        816
+      ],
+      "center": [
+        3203,
+        807
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 125,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1028,
+        799,
+        1063,
+        827
+      ],
+      "center": [
+        1045,
+        813
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 126,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        91,
+        803,
+        282,
+        922
+      ],
+      "center": [
+        186,
+        862
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 127,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        438,
+        808,
+        477,
+        836
+      ],
+      "center": [
+        457,
+        822
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 128,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1121,
+        808,
+        1221,
+        918
+      ],
+      "center": [
+        1171,
+        863
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 129,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        485,
+        812,
+        549,
+        868
+      ],
+      "center": [
+        517,
+        840
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 130,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1260,
+        816,
+        1324,
+        853
+      ],
+      "center": [
+        1292,
+        834
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 131,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1204,
+        826,
+        1243,
+        863
+      ],
+      "center": [
+        1223,
+        844
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 132,
+      "kind": "text",
+      "label": "사용함 도구 2개>",
+      "bbox": [
+        2966,
+        828,
+        3090,
+        846
+      ],
+      "center": [
+        3028,
+        837
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 133,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1019,
+        830,
+        1054,
+        924
+      ],
+      "center": [
+        1036,
+        877
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 134,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1444,
+        832,
+        1484,
+        914
+      ],
+      "center": [
+        1464,
+        873
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 135,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1770,
+        840,
+        1810,
+        889
+      ],
+      "center": [
+        1790,
+        864
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 136,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1038,
+        851,
+        1120,
+        1089
+      ],
+      "center": [
+        1079,
+        970
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 137,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1195,
+        854,
+        1314,
+        890
+      ],
+      "center": [
+        1254,
+        872
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 138,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1733,
+        857,
+        1797,
+        913
+      ],
+      "center": [
+        1765,
+        885
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 139,
+      "kind": "text",
+      "label": "에러를 숨겨버렸네요-다시실행해 원인끝부분만 확인합니다",
+      "bbox": [
+        2963,
+        860,
+        3386,
+        878
+      ],
+      "center": [
+        3174,
+        869
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 140,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        597,
+        870,
+        637,
+        906
+      ],
+      "center": [
+        617,
+        888
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 141,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1321,
+        885,
+        1353,
+        958
+      ],
+      "center": [
+        1337,
+        921
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 142,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1579,
+        886,
+        1617,
+        934
+      ],
+      "center": [
+        1598,
+        910
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 143,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1377,
+        890,
+        1418,
+        926
+      ],
+      "center": [
+        1397,
+        908
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 144,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1678,
+        890,
+        1721,
+        932
+      ],
+      "center": [
+        1699,
+        911
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 145,
+      "kind": "text",
+      "label": "편집됨 파일 1개, 사용함 도구3개>",
+      "bbox": [
+        2961,
+        891,
+        3192,
+        909
+      ],
+      "center": [
+        3076,
+        900
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 146,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1232,
+        896,
+        1261,
+        922
+      ],
+      "center": [
+        1246,
+        909
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 147,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1464,
+        912,
+        1493,
+        936
+      ],
+      "center": [
+        1478,
+        924
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 148,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1107,
+        919,
+        1134,
+        965
+      ],
+      "center": [
+        1120,
+        942
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 149,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1179,
+        922,
+        1401,
+        1439
+      ],
+      "center": [
+        1290,
+        1180
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 150,
+      "kind": "text",
+      "label": "백그라운드 셀 실패 Launch updated GUl with box editing",
+      "bbox": [
+        2958,
+        923,
+        3351,
+        941
+      ],
+      "center": [
+        3154,
+        932
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 151,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1002,
+        925,
+        1026,
+        985
+      ],
+      "center": [
+        1014,
+        955
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 152,
+      "kind": "text",
+      "label": "분석 중",
+      "bbox": [
+        3430,
+        939,
+        3485,
+        958
+      ],
+      "center": [
+        3457,
+        948
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 153,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1803,
+        941,
+        1831,
+        990
+      ],
+      "center": [
+        1817,
+        965
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 154,
+      "kind": "text",
+      "label": "편집됨파일1개, 사용함 도구6개>",
+      "bbox": [
+        2955,
+        951,
+        3186,
+        971
+      ],
+      "center": [
+        3070,
+        961
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 155,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        85,
+        971,
+        134,
+        1014
+      ],
+      "center": [
+        109,
+        992
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 156,
+      "kind": "text",
+      "label": "Relaunch GUI with working OCR",
+      "bbox": [
+        3900,
+        981,
+        4122,
+        998
+      ],
+      "center": [
+        4011,
+        989
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 157,
+      "kind": "text",
+      "label": "해결 완료-GU도 새로 떠 있습니다.정리",
+      "bbox": [
+        2954,
+        984,
+        3236,
+        1000
+      ],
+      "center": [
+        3095,
+        992
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 158,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        816,
+        988,
+        856,
+        1056
+      ],
+      "center": [
+        836,
+        1022
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 159,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        629,
+        989,
+        654,
+        1031
+      ],
+      "center": [
+        641,
+        1010
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 160,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1007,
+        990,
+        1053,
+        1085
+      ],
+      "center": [
+        1030,
+        1037
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 161,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1412,
+        991,
+        1443,
+        1022
+      ],
+      "center": [
+        1427,
+        1006
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 162,
+      "kind": "text",
+      "label": "Bash50초",
+      "bbox": [
+        3896,
+        1002,
+        3973,
+        1020
+      ],
+      "center": [
+        3934,
+        1011
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 163,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2041,
+        1005,
+        2078,
+        1048
+      ],
+      "center": [
+        2059,
+        1026
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 164,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        986,
+        1009,
+        1036,
+        1099
+      ],
+      "center": [
+        1011,
+        1054
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 165,
+      "kind": "text",
+      "label": "원인과해법—paddleocr는선택설치(uv sync --extra ocr)라 없었던것인데, 설치 과정에서 Windows +Python3.12+",
+      "bbox": [
+        2949,
+        1009,
+        3754,
+        1032
+      ],
+      "center": [
+        3351,
+        1020
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 166,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        473,
+        1010,
+        506,
+        1038
+      ],
+      "center": [
+        489,
+        1024
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 167,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1760,
+        1018,
+        1841,
+        1168
+      ],
+      "center": [
+        1800,
+        1093
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 168,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        747,
+        1019,
+        789,
+        1076
+      ],
+      "center": [
+        768,
+        1047
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 169,
+      "kind": "text",
+      "label": "paddle3.x조합의추론버그를두번만났습니다(구형모델의fused_conv2d에러→paddleocr3.x로올리니PIR/OneDNN 에러).",
+      "bbox": [
+        2944,
+        1027,
+        3780,
+        1052
+      ],
+      "center": [
+        3362,
+        1039
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 170,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1585,
+        1029,
+        1757,
+        1175
+      ],
+      "center": [
+        1671,
+        1102
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 171,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1922,
+        1036,
+        1965,
+        1100
+      ],
+      "center": [
+        1943,
+        1068
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 172,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1851,
+        1039,
+        1892,
+        1087
+      ],
+      "center": [
+        1871,
+        1063
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 173,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1419,
+        1044,
+        1450,
+        1080
+      ],
+      "center": [
+        1434,
+        1062
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 174,
+      "kind": "text",
+      "label": "완료",
+      "bbox": [
+        3858,
+        1044,
+        3890,
+        1063
+      ],
+      "center": [
+        3874,
+        1053
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 175,
+      "kind": "text",
+      "label": "최종해법:paddleocr3.x+enable_mk1dnn=False-실프레임에서한글텍스트53건('280,512'재화, '42m'거리,상인 이름들)정상",
+      "bbox": [
+        2943,
+        1047,
+        3795,
+        1071
+      ],
+      "center": [
+        3369,
+        1059
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 176,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1499,
+        1050,
+        1525,
+        1093
+      ],
+      "center": [
+        1512,
+        1071
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 177,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        621,
+        1056,
+        669,
+        1146
+      ],
+      "center": [
+        645,
+        1101
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 178,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        398,
+        1057,
+        431,
+        1108
+      ],
+      "center": [
+        414,
+        1082
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 179,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1166,
+        1059,
+        1192,
+        1101
+      ],
+      "center": [
+        1179,
+        1080
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 180,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1441,
+        1064,
+        1470,
+        1110
+      ],
+      "center": [
+        1455,
+        1087
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 181,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1046,
+        1065,
+        1072,
+        1127
+      ],
+      "center": [
+        1059,
+        1096
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 182,
+      "kind": "text",
+      "label": "인식확인했습니다.코드에는2.x/3.x양쪽 대응+미설치시\"uvsync-extra ocr 실행\"안내메시지까지 넣었습니다. 테스트 50개 전부",
+      "bbox": [
+        2940,
+        1067,
+        3794,
+        1092
+      ],
+      "center": [
+        3367,
+        1079
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 183,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1906,
+        1072,
+        1940,
+        1119
+      ],
+      "center": [
+        1923,
+        1095
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 184,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1847,
+        1073,
+        1877,
+        1119
+      ],
+      "center": [
+        1862,
+        1096
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 185,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1399,
+        1077,
+        1432,
+        1112
+      ],
+      "center": [
+        1415,
+        1094
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 186,
+      "kind": "text",
+      "label": "• Run suite (ocR test now active) and commit",
+      "bbox": [
+        3862,
+        1079,
+        4175,
+        1098
+      ],
+      "center": [
+        4018,
+        1088
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 187,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        456,
+        1088,
+        481,
+        1133
+      ],
+      "center": [
+        468,
+        1110
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 188,
+      "kind": "text",
+      "label": "통과(OCR 테스트도 이제 skip 아님), 커밋 f95344d",
+      "bbox": [
+        2936,
+        1092,
+        3272,
+        1110
+      ],
+      "center": [
+        3104,
+        1101
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 189,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        886,
+        1097,
+        921,
+        1156
+      ],
+      "center": [
+        903,
+        1126
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 190,
+      "kind": "text",
+      "label": "Bash 완료됨",
+      "bbox": [
+        3873,
+        1099,
+        3960,
+        1121
+      ],
+      "center": [
+        3916,
+        1110
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 191,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        292,
+        1100,
+        346,
+        1264
+      ],
+      "center": [
+        319,
+        1182
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 192,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1418,
+        1101,
+        1455,
+        1137
+      ],
+      "center": [
+        1436,
+        1119
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 193,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1488,
+        1108,
+        1515,
+        1132
+      ],
+      "center": [
+        1501,
+        1120
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 194,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        989,
+        1113,
+        1016,
+        1158
+      ],
+      "center": [
+        1002,
+        1135
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 195,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1061,
+        1115,
+        1085,
+        1155
+      ],
+      "center": [
+        1073,
+        1135
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 196,
+      "kind": "text",
+      "label": "사용시알아둘것두가지",
+      "bbox": [
+        2931,
+        1121,
+        3096,
+        1138
+      ],
+      "center": [
+        3013,
+        1129
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 197,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1448,
+        1122,
+        1537,
+        1439
+      ],
+      "center": [
+        1492,
+        1280
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 198,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        732,
+        1126,
+        762,
+        1182
+      ],
+      "center": [
+        747,
+        1154
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 199,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1492,
+        1134,
+        1590,
+        1439
+      ],
+      "center": [
+        1541,
+        1286
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 200,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        365,
+        1139,
+        401,
+        1231
+      ],
+      "center": [
+        383,
+        1185
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 201,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        398,
+        1140,
+        467,
+        1284
+      ],
+      "center": [
+        432,
+        1212
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 202,
+      "kind": "text",
+      "label": "pes uup i  op",
+      "bbox": [
+        3850,
+        1142,
+        4129,
+        1158
+      ],
+      "center": [
+        3989,
+        1150
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 203,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        615,
+        1143,
+        702,
+        1266
+      ],
+      "center": [
+        658,
+        1204
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 204,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        900,
+        1146,
+        928,
+        1184
+      ],
+      "center": [
+        914,
+        1165
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 205,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1840,
+        1146,
+        1867,
+        1171
+      ],
+      "center": [
+        1853,
+        1158
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 206,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1402,
+        1148,
+        1439,
+        1194
+      ],
+      "center": [
+        1420,
+        1171
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 207,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1778,
+        1148,
+        1818,
+        1188
+      ],
+      "center": [
+        1798,
+        1168
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 208,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2000,
+        1148,
+        2024,
+        1181
+      ],
+      "center": [
+        2012,
+        1164
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 209,
+      "kind": "text",
+      "label": "이 ",
+      "bbox": [
+        2931,
+        1148,
+        3709,
+        1169
+      ],
+      "center": [
+        3320,
+        1158
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 210,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1134,
+        1150,
+        1188,
+        1184
+      ],
+      "center": [
+        1161,
+        1167
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 211,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1654,
+        1157,
+        1778,
+        1323
+      ],
+      "center": [
+        1716,
+        1240
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 212,
+      "kind": "text",
+      "label": "움4seg",
+      "bbox": [
+        3860,
+        1160,
+        3946,
+        1182
+      ],
+      "center": [
+        3903,
+        1171
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 213,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        770,
+        1170,
+        798,
+        1240
+      ],
+      "center": [
+        784,
+        1205
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 214,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        744,
+        1172,
+        770,
+        1196
+      ],
+      "center": [
+        757,
+        1184
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 215,
+      "kind": "text",
+      "label": "",
+      "bbox": [
+        2927,
+        1173,
+        3764,
+        1196
+      ],
+      "center": [
+        3345,
+        1184
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 216,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        798,
+        1175,
+        851,
+        1254
+      ],
+      "center": [
+        824,
+        1214
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 217,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        174,
+        1177,
+        240,
+        1273
+      ],
+      "center": [
+        207,
+        1225
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 218,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1867,
+        1179,
+        1891,
+        1205
+      ],
+      "center": [
+        1879,
+        1192
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 219,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2049,
+        1182,
+        2078,
+        1292
+      ],
+      "center": [
+        2063,
+        1237
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 220,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        962,
+        1185,
+        989,
+        1223
+      ],
+      "center": [
+        975,
+        1204
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 221,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1105,
+        1193,
+        1200,
+        1438
+      ],
+      "center": [
+        1152,
+        1315
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 222,
+      "kind": "text",
+      "label": "이",
+      "bbox": [
+        2941,
+        1193,
+        3759,
+        1215
+      ],
+      "center": [
+        3350,
+        1204
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 223,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1870,
+        1199,
+        1900,
+        1258
+      ],
+      "center": [
+        1885,
+        1228
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 224,
+      "kind": "text",
+      "label": "Tc",
+      "bbox": [
+        3855,
+        1202,
+        4172,
+        1219
+      ],
+      "center": [
+        4013,
+        1210
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 225,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1590,
+        1210,
+        1615,
+        1271
+      ],
+      "center": [
+        1602,
+        1240
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 226,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        946,
+        1213,
+        972,
+        1243
+      ],
+      "center": [
+        959,
+        1228
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 227,
+      "kind": "text",
+      "label": "로좌표를딴뒤ocr_regions에넣는게순서입니다-이게 정확히 inspect →config피드백루프입니다).",
+      "bbox": [
+        2943,
+        1215,
+        3617,
+        1233
+      ],
+      "center": [
+        3280,
+        1224
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 228,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        505,
+        1217,
+        530,
+        1261
+      ],
+      "center": [
+        517,
+        1239
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 229,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        535,
+        1219,
+        601,
+        1379
+      ],
+      "center": [
+        568,
+        1299
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 230,
+      "kind": "text",
+      "label": "Bash 실패",
+      "bbox": [
+        3853,
+        1221,
+        3922,
+        1239
+      ],
+      "center": [
+        3887,
+        1230
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 231,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        76,
+        1232,
+        110,
+        1312
+      ],
+      "center": [
+        93,
+        1272
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 232,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        16,
+        1235,
+        57,
+        1307
+      ],
+      "center": [
+        36,
+        1271
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 233,
+      "kind": "text",
+      "label": "이시행착오 자체가 포트폴리오재료입니다-—\"한글정확도로PaddleOcR을 선정했고,Windows 추론버그2종을mkldnn 비활성화",
+      "bbox": [
+        2918,
+        1241,
+        3753,
+        1264
+      ],
+      "center": [
+        3335,
+        1252
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 234,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2160,
+        1250,
+        2229,
+        1291
+      ],
+      "center": [
+        2194,
+        1270
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 235,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2075,
+        1255,
+        2102,
+        1283
+      ],
+      "center": [
+        2088,
+        1269
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 236,
+      "kind": "text",
+      "label": "Test OCR with paddleocr 3.x on real frame",
+      "bbox": [
+        3850,
+        1259,
+        4129,
+        1278
+      ],
+      "center": [
+        3989,
+        1268
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 237,
+      "kind": "text",
+      "label": "로우회했다\"는한줄은 직접 굴려본 사람만 쓸수 있는문장입니다",
+      "bbox": [
+        2921,
+        1261,
+        3343,
+        1281
+      ],
+      "center": [
+        3132,
+        1271
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 238,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1071,
+        1265,
+        1100,
+        1296
+      ],
+      "center": [
+        1085,
+        1280
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 239,
+      "kind": "text",
+      "label": "",
+      "bbox": [
+        376,
+        1271,
+        404,
+        1292
+      ],
+      "center": [
+        390,
+        1281
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 240,
+      "kind": "text",
+      "label": "Bash 실패",
+      "bbox": [
+        3852,
+        1282,
+        3918,
+        1296
+      ],
+      "center": [
+        3885,
+        1289
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 241,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        655,
+        1312,
+        757,
+        1429
+      ],
+      "center": [
+        706,
+        1370
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 242,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        318,
+        1314,
+        362,
+        1383
+      ],
+      "center": [
+        340,
+        1348
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 243,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        604,
+        1319,
+        655,
+        1343
+      ],
+      "center": [
+        629,
+        1331
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 244,
+      "kind": "text",
+      "label": "Launch updated GUI with box editing",
+      "bbox": [
+        3852,
+        1319,
+        4095,
+        1336
+      ],
+      "center": [
+        3973,
+        1327
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 245,
+      "kind": "text",
+      "label": "*",
+      "bbox": [
+        2922,
+        1320,
+        2941,
+        1337
+      ],
+      "center": [
+        2931,
+        1328
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 246,
+      "kind": "text",
+      "label": "실행 중인 작업 3개",
+      "bbox": [
+        2957,
+        1322,
+        3062,
+        1338
+      ],
+      "center": [
+        3009,
+        1330
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 247,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        765,
+        1331,
+        801,
+        1356
+      ],
+      "center": [
+        783,
+        1343
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 248,
+      "kind": "text",
+      "label": "Bash 실패",
+      "bbox": [
+        3851,
+        1334,
+        3921,
+        1359
+      ],
+      "center": [
+        3886,
+        1346
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 249,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2245,
+        1347,
+        2517,
+        1422
+      ],
+      "center": [
+        2381,
+        1384
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 250,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        907,
+        1348,
+        934,
+        1393
+      ],
+      "center": [
+        920,
+        1370
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 251,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2888,
+        1350,
+        3728,
+        1398
+      ],
+      "center": [
+        3308,
+        1374
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 252,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        360,
+        1353,
+        402,
+        1417
+      ],
+      "center": [
+        381,
+        1385
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 253,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        50,
+        1354,
+        306,
+        1413
+      ],
+      "center": [
+        178,
+        1383
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 254,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        229,
+        1357,
+        351,
+        1438
+      ],
+      "center": [
+        290,
+        1397
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 255,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        610,
+        1362,
+        643,
+        1431
+      ],
+      "center": [
+        626,
+        1396
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 256,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        507,
+        1373,
+        539,
+        1428
+      ],
+      "center": [
+        523,
+        1400
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 257,
+      "kind": "text",
+      "label": "Close GUl and complete OCR dependency sync",
+      "bbox": [
+        3855,
+        1377,
+        4159,
+        1394
+      ],
+      "center": [
+        4007,
+        1385
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 258,
+      "kind": "text",
+      "label": "시작하기",
+      "bbox": [
+        2297,
+        1386,
+        2436,
+        1434
+      ],
+      "center": [
+        2366,
+        1410
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 259,
+      "kind": "text",
+      "label": "기",
+      "bbox": [
+        0,
+        1387,
+        49,
+        1435
+      ],
+      "center": [
+        24,
+        1411
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 260,
+      "kind": "text",
+      "label": "명령어를 입력하려면/입력",
+      "bbox": [
+        2926,
+        1398,
+        3101,
+        1416
+      ],
+      "center": [
+        3013,
+        1407
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 261,
+      "kind": "text",
+      "label": "Bash완료됨",
+      "bbox": [
+        3859,
+        1398,
+        3937,
+        1416
+      ],
+      "center": [
+        3898,
+        1407
+      ],
+      "confirmed": false
+    }
+  ]
+}

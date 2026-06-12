@@ -8,8 +8,8 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeySequence, QPixmap, QShortcut
 from PySide6.QtWidgets import (
     QAbstractItemView, QCheckBox, QComboBox, QDoubleSpinBox, QFileDialog, QFormLayout,
-    QHBoxLayout, QLabel, QLineEdit, QPushButton, QRadioButton, QScrollArea,
-    QSplitter, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget,
+    QHBoxLayout, QLabel, QLineEdit, QProgressBar, QPushButton, QRadioButton,
+    QScrollArea, QSplitter, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget,
 )
 
 from companion.gui.image_editor import BoxEditor
@@ -19,7 +19,15 @@ from companion.gui.workers import FuncWorker
 
 def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | None,
                  stable_session: Path | None, threshold: float,
-                 use_ocr: bool, use_llm: bool):
+                 use_ocr: bool, use_llm: bool, progress=None, cancel=None):
+    def _p(msg: str, pct: int = -1) -> None:
+        if progress:
+            progress(msg, pct)
+
+    def _check_cancel() -> None:
+        if cancel and cancel():
+            raise RuntimeError("사용자가 작업을 중단했습니다")
+
     from companion.vision.elements import (
         apply_library, detect_elements, label_elements, save_inspection,
     )
@@ -27,6 +35,7 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
     if cfg_path:
         from companion.config import GameConfig
         cfg = GameConfig.load(cfg_path)
+    _p("화면 확보 중…", 5)
     if mode == "image":
         png = Path(image_path).read_bytes()
     elif mode == "windows":
@@ -35,23 +44,34 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
     else:
         from companion.capture.adb import AdbCapture
         png = AdbCapture(serial=cfg.capture_adb_serial if cfg else None).grab()
+    _check_cancel()
     mask = None
     if stable_session is not None:
+        _p("안정성 마스크 계산 중 (세션 프레임 샘플링)…", 15)
         from companion.vision.elements import stability_mask
         mask = stability_mask(stable_session, std_threshold=threshold)
+        _check_cancel()
     engine = None
     if use_ocr:
+        _p("OCR 엔진 로드 중 (최초 1회는 모델 로드로 수십 초)…", 35)
         from companion.vision.ocr import OcrEngine
         engine = OcrEngine()
+        _check_cancel()
+    _p("UI 요소 검출 중 (CV" + (" + OCR" if engine else "") + ")…", 55)
     elements = detect_elements(png, ocr_engine=engine, mask=mask)
+    _check_cancel()
     game_name = cfg.name if cfg else "default"
     from companion.library import ElementLibrary
     lib = ElementLibrary(root, game_name)
     if lib.file.exists():  # 확정 요소 = 정답 — 검출 결과에 먼저 강제 적용
+        _p("라이브러리 확정 요소 매칭 중…", 70)
         elements = apply_library(png, elements, lib)
+    _p("카탈로그 저장 중…", 80)
     out = save_inspection(root / "inspections" / datetime.now().strftime("%Y%m%d_%H%M%S"),
                           png, elements)
     if use_llm and elements:
+        _check_cancel()
+        _p("LLM 라벨링 중 (Claude 구독 호출 — 수십 초~수 분, 호출 중에는 중단 불가)…", -1)
         from companion.providers.claude_agent import ClaudeAgentProvider
         elements = label_elements(elements, out / "annotated.png", ClaudeAgentProvider())
         save_inspection(out, png, elements)
@@ -180,8 +200,20 @@ class InspectPanel(QWidget):
         split.setSizes([700, 400])
         lay.addWidget(split, stretch=1)
 
+        bottom = QHBoxLayout()
         self.status = QLabel("")
-        lay.addWidget(self.status)
+        self.status.setWordWrap(True)
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(0)
+        self.progress_bar.setMaximumWidth(260)
+        self.cancel_btn = QPushButton("중단")
+        self.cancel_btn.setEnabled(False)
+        self.cancel_btn.clicked.connect(self._cancel_run)
+        bottom.addWidget(self.status, stretch=1)
+        bottom.addWidget(self.progress_bar)
+        bottom.addWidget(self.cancel_btn)
+        lay.addLayout(bottom)
 
     def reload_sessions(self) -> None:
         self.stable_combo.clear()
@@ -205,17 +237,43 @@ class InspectPanel(QWidget):
         self._worker = FuncWorker(
             _run_inspect, self.root, mode, self.image_edit.text().strip() or None,
             self.config_combo.currentData(), Path(stable) if stable else None,
-            self.threshold.value(), self.ocr_check.isChecked(), self.llm_check.isChecked())
+            self.threshold.value(), self.ocr_check.isChecked(), self.llm_check.isChecked(),
+            with_progress=True)
         self._worker.done.connect(self._on_done)
-        self._worker.failed.connect(self.status.setText)
+        self._worker.failed.connect(self._on_failed)
+        self._worker.progress.connect(self._on_progress)
         self.run_btn.setEnabled(False)
-        self.status.setText("분석 중…")
+        self.cancel_btn.setEnabled(True)
+        self.status.setText("시작…")
         self._worker.start()
+
+    def _cancel_run(self) -> None:
+        if self._worker is not None:
+            self._worker.cancel()
+            self.status.setText("중단 요청됨 — 현재 단계가 끝나는 대로 멈춥니다")
+
+    def _on_progress(self, msg: str, pct: int) -> None:
+        self.status.setText(msg)
+        if pct < 0:
+            self.progress_bar.setRange(0, 0)  # 무한 바 — 길이를 모르는 단계
+        else:
+            self.progress_bar.setRange(0, 100)
+            self.progress_bar.setValue(pct)
+
+    def _on_failed(self, msg: str) -> None:
+        self.run_btn.setEnabled(True)
+        self.cancel_btn.setEnabled(False)
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(0)
+        self.status.setText(("중단됨: " if "중단" in msg else "오류: ") + msg)
 
     def _on_done(self, payload) -> None:
         self.out_dir, self.elements, self.game_name = payload
         self._dirty = False
         self.run_btn.setEnabled(True)
+        self.cancel_btn.setEnabled(False)
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(100)
         self.open_btn.setEnabled(True)
         self.confirm_btn.setEnabled(True)
         self.save_btn.setEnabled(False)

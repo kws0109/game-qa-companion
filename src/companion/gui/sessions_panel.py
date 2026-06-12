@@ -4,8 +4,8 @@ from pathlib import Path
 
 from PySide6.QtWidgets import (
     QAbstractItemView, QCheckBox, QComboBox, QFileDialog, QHBoxLayout, QInputDialog,
-    QLabel, QLineEdit, QPushButton, QSpinBox, QTableWidget, QTableWidgetItem,
-    QTextBrowser, QVBoxLayout, QWidget,
+    QLabel, QLineEdit, QProgressBar, QPushButton, QSpinBox, QTableWidget,
+    QTableWidgetItem, QTextBrowser, QVBoxLayout, QWidget,
 )
 
 from companion.gui.util import list_game_configs, list_sessions, make_provider
@@ -13,16 +13,19 @@ from companion.gui.workers import FuncWorker
 
 
 def _run_analyze(session: Path, cfg_path: str, provider_name: str,
-                 max_candidates: int, use_ocr: bool):
+                 max_candidates: int, use_ocr: bool, progress=None, cancel=None):
     from companion.analysis.pipeline import analyze_session
     from companion.analysis.report import render_report
     from companion.config import GameConfig
     engine = None
     if use_ocr:
+        if progress:
+            progress("OCR 엔진 로드 중 (최초 1회는 모델 로드로 수십 초)…", 5)
         from companion.vision.ocr import OcrEngine
         engine = OcrEngine()
     result = analyze_session(session, GameConfig.load(cfg_path), make_provider(provider_name),
-                             ocr_engine=engine, max_candidates=max_candidates)
+                             ocr_engine=engine, max_candidates=max_candidates,
+                             progress=progress, cancel=cancel)
     return result, render_report(session)
 
 
@@ -100,8 +103,20 @@ class SessionsPanel(QWidget):
         ask_row.addWidget(self.ask_btn)
         lay.addLayout(ask_row)
 
+        bottom = QHBoxLayout()
         self.status = QLabel("")
-        lay.addWidget(self.status)
+        self.status.setWordWrap(True)
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(0)
+        self.progress_bar.setMaximumWidth(260)
+        self.cancel_btn = QPushButton("중단")
+        self.cancel_btn.setEnabled(False)
+        self.cancel_btn.clicked.connect(self._cancel_run)
+        bottom.addWidget(self.status, stretch=1)
+        bottom.addWidget(self.progress_bar)
+        bottom.addWidget(self.cancel_btn)
+        lay.addLayout(bottom)
 
     # --- helpers -------------------------------------------------------
     def refresh(self) -> None:
@@ -125,6 +140,25 @@ class SessionsPanel(QWidget):
         self.status.setText(msg)
         self.analyze_btn.setEnabled(True)
         self.ask_btn.setEnabled(True)
+        self.cancel_btn.setEnabled(False)
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(0)
+
+    def _cancel_run(self) -> None:
+        if self._worker is not None:
+            self._worker.cancel()
+            self.status.setText("중단 요청됨 — 현재 단계가 끝나는 대로 멈춥니다")
+
+    def _on_progress(self, msg: str, pct: int) -> None:
+        self.status.setText(msg)
+        if pct < 0:
+            self.progress_bar.setRange(0, 0)
+        else:
+            self.progress_bar.setRange(0, 100)
+            self.progress_bar.setValue(pct)
+
+    def _on_failed(self, msg: str) -> None:
+        self._idle(("중단됨: " if "중단" in msg else "오류: ") + msg)
 
     # --- actions -------------------------------------------------------
     def _import(self) -> None:
@@ -151,10 +185,13 @@ class SessionsPanel(QWidget):
             return
         provider = self.provider_combo.currentData()
         self._worker = FuncWorker(_run_analyze, s["path"], cfg, provider,
-                                  self.max_cand.value(), self.ocr_check.isChecked())
+                                  self.max_cand.value(), self.ocr_check.isChecked(),
+                                  with_progress=True)
         self._worker.done.connect(self._on_analyzed)
-        self._worker.failed.connect(self._idle)
-        self._busy("분석 중… (claude provider는 후보당 수십 초 걸릴 수 있음)")
+        self._worker.failed.connect(self._on_failed)
+        self._worker.progress.connect(self._on_progress)
+        self._busy("분석 시작…")
+        self.cancel_btn.setEnabled(True)
         self._worker.start()
 
     def _on_analyzed(self, payload) -> None:
