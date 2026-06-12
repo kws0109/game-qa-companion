@@ -5,13 +5,14 @@ from datetime import datetime
 from pathlib import Path
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QKeySequence, QPixmap, QShortcut
 from PySide6.QtWidgets import (
     QAbstractItemView, QCheckBox, QComboBox, QDoubleSpinBox, QFileDialog, QFormLayout,
     QHBoxLayout, QLabel, QLineEdit, QPushButton, QRadioButton, QScrollArea,
     QSplitter, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget,
 )
 
+from companion.gui.image_editor import BoxEditor
 from companion.gui.util import list_game_configs, list_sessions
 from companion.gui.workers import FuncWorker
 
@@ -66,6 +67,7 @@ class InspectPanel(QWidget):
         self._worker: FuncWorker | None = None
         self.out_dir: Path | None = None
         self.elements: list = []
+        self._dirty = False
         self._build()
 
     def _build(self) -> None:
@@ -135,20 +137,40 @@ class InspectPanel(QWidget):
         lay.addLayout(btn_row)
 
         split = QSplitter(Qt.Orientation.Horizontal)
-        self.annotated = QLabel("결과 이미지")
-        self.annotated.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        left = QWidget()
+        llay = QVBoxLayout(left)
+        self.editor = BoxEditor()
+        self.editor.boxSelected.connect(self._on_editor_select)
+        self.editor.boxDrawn.connect(self._on_box_drawn)
         scroll = QScrollArea()
-        scroll.setWidget(self.annotated)
-        scroll.setWidgetResizable(True)
-        split.addWidget(scroll)
+        scroll.setWidget(self.editor)
+        scroll.setWidgetResizable(False)
+        llay.addWidget(scroll, stretch=1)
+
+        edit_row = QHBoxLayout()
+        self.delete_btn = QPushButton("선택 삭제 (Del)")
+        self.delete_btn.clicked.connect(self._delete_selected)
+        self.redraw_btn = QPushButton("박스 다시 그리기")
+        self.redraw_btn.setCheckable(True)
+        self.redraw_btn.toggled.connect(self._on_redraw_toggled)
+        self.save_btn = QPushButton("변경 저장")
+        self.save_btn.clicked.connect(self._save_changes)
+        self.save_btn.setEnabled(False)
+        for b in (self.delete_btn, self.redraw_btn, self.save_btn):
+            edit_row.addWidget(b)
+        edit_row.addStretch()
+        llay.addLayout(edit_row)
+        split.addWidget(left)
+        QShortcut(QKeySequence(Qt.Key.Key_Delete), self, self._delete_selected)
 
         right = QWidget()
         rlay = QVBoxLayout(right)
         self.table = QTableWidget(0, 5)
         self.table.setHorizontalHeaderLabels(["id", "종류", "라벨", "중심 좌표", "확정"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.table.itemSelectionChanged.connect(self._show_crop)
+        self.table.setEditTriggers(QAbstractItemView.EditTrigger.DoubleClicked)
+        self.table.itemSelectionChanged.connect(self._on_table_select)
+        self.table.itemChanged.connect(self._on_cell_edited)
         rlay.addWidget(self.table, stretch=1)
         self.crop_view = QLabel("요소 선택 시 크롭 미리보기")
         self.crop_view.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -192,30 +214,103 @@ class InspectPanel(QWidget):
 
     def _on_done(self, payload) -> None:
         self.out_dir, self.elements, self.game_name = payload
+        self._dirty = False
         self.run_btn.setEnabled(True)
         self.open_btn.setEnabled(True)
         self.confirm_btn.setEnabled(True)
+        self.save_btn.setEnabled(False)
         confirmed = sum(1 for e in self.elements if e.confirmed)
         self.status.setText(f"요소 {len(self.elements)}개 (라이브러리 확정 {confirmed}개 자동 인식)"
-                            f" — {self.out_dir}")
-        pix = QPixmap(str(self.out_dir / "annotated.png"))
-        self.annotated.setPixmap(pix.scaledToWidth(
-            900, Qt.TransformationMode.SmoothTransformation))
+                            f" — {self.out_dir} · 오탐은 클릭→Del, 누락은 드래그로 추가")
+        self.editor.load(self.out_dir / "source.png", self.elements)
         self._fill_table()
 
     def _fill_table(self) -> None:
+        self.table.blockSignals(True)
         self.table.setRowCount(len(self.elements))
         for r, e in enumerate(self.elements):
             for c, val in enumerate([str(e.id), e.kind, e.label,
                                      f"({e.center[0]}, {e.center[1]})",
                                      "✓" if e.confirmed else ""]):
-                self.table.setItem(r, c, QTableWidgetItem(val))
+                item = QTableWidgetItem(val)
+                if c not in (1, 2):  # 종류·라벨만 편집 허용
+                    item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+                self.table.setItem(r, c, item)
+        self.table.blockSignals(False)
+        self.editor.update()
+
+    # --- 편집 동작 -------------------------------------------------------
+    def _mark_dirty(self) -> None:
+        self._dirty = True
+        self.save_btn.setEnabled(True)
+
+    def _on_table_select(self) -> None:
+        rows = self.table.selectionModel().selectedRows()
+        self.editor.set_selected(rows[0].row() if rows else -1)
+        self._show_crop()
+
+    def _on_editor_select(self, idx: int) -> None:
+        self.table.selectRow(idx)
+
+    def _on_cell_edited(self, item) -> None:
+        e = self.elements[item.row()]
+        if item.column() == 1:
+            e.kind = item.text().strip() or e.kind
+        elif item.column() == 2:
+            e.label = item.text().strip()
+        self._mark_dirty()
+        self.editor.update()
+
+    def _on_redraw_toggled(self, on: bool) -> None:
+        self.editor.redraw_mode = on
+        self.status.setText("박스 다시 그리기: 요소를 선택한 뒤 이미지에 새 영역을 드래그하세요"
+                            if on else "")
+
+    def _on_box_drawn(self, bbox: tuple) -> None:
+        from companion.vision.elements import UIElement
+        l, t, r, b = bbox
+        rows = self.table.selectionModel().selectedRows()
+        if self.redraw_btn.isChecked() and rows:  # 선택 요소의 박스 교체
+            e = self.elements[rows[0].row()]
+            e.bbox = (l, t, r, b)
+            e.center = ((l + r) // 2, (t + b) // 2)
+            self.redraw_btn.setChecked(False)
+        else:  # 누락 요소 수동 추가
+            next_id = max((e.id for e in self.elements), default=0) + 1
+            self.elements.append(UIElement(next_id, "box", "", (l, t, r, b),
+                                           ((l + r) // 2, (t + b) // 2)))
+        self._mark_dirty()
+        self._fill_table()
+
+    def _delete_selected(self) -> None:
+        rows = self.table.selectionModel().selectedRows()
+        if not rows:
+            return
+        del self.elements[rows[0].row()]
+        self.editor.set_selected(-1)
+        self._mark_dirty()
+        self._fill_table()
+        self.status.setText("요소 삭제됨 — '변경 저장'을 누르면 카탈로그에 반영됩니다")
+
+    def _save_changes(self) -> None:
+        if self.out_dir is None:
+            return
+        from companion.vision.elements import save_inspection
+        png = (self.out_dir / "source.png").read_bytes()
+        save_inspection(self.out_dir, png, self.elements)  # json·주석 이미지·크롭 재생성
+        self._dirty = False
+        self.save_btn.setEnabled(False)
+        self.editor.load(self.out_dir / "source.png", self.elements)
+        self._fill_table()
+        self.status.setText(f"저장됨 — 요소 {len(self.elements)}개, {self.out_dir}")
 
     def _confirm_selected(self) -> None:
         rows = self.table.selectionModel().selectedRows()
         if not rows or self.out_dir is None:
             self.status.setText("등록할 요소를 테이블에서 선택하세요")
             return
+        if self._dirty:
+            self._save_changes()  # 수동 추가·수정 박스의 크롭이 있어야 템플릿 등록 가능
         e = self.elements[rows[0].row()]
         from PySide6.QtWidgets import QInputDialog
         from companion.library import ElementLibrary
