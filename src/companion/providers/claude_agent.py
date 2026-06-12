@@ -15,7 +15,7 @@ class ClaudeAgentProvider:
     명시적으로 거부한다 (이 도구는 구독 연동 전용).
     """
 
-    def __init__(self, model: str | None = None, max_turns: int = 8):
+    def __init__(self, model: str | None = None, max_turns: int = 30):
         if os.environ.get("ANTHROPIC_API_KEY"):
             raise RuntimeError(
                 "ANTHROPIC_API_KEY가 설정되어 있습니다. 이 도구는 Claude Code 구독 연동 전용입니다 — "

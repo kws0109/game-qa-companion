@@ -1,0 +1,1892 @@
+{
+  "elements": [
+    {
+      "id": 1,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        7,
+        1,
+        2568,
+        121
+      ],
+      "center": [
+        1287,
+        61
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 2,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1085,
+        130,
+        1489,
+        174
+      ],
+      "center": [
+        1287,
+        152
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 3,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2505,
+        130,
+        2547,
+        172
+      ],
+      "center": [
+        2526,
+        151
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 4,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        425,
+        132,
+        546,
+        170
+      ],
+      "center": [
+        485,
+        151
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 5,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2150,
+        132,
+        2268,
+        170
+      ],
+      "center": [
+        2209,
+        151
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 6,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2355,
+        137,
+        2379,
+        164
+      ],
+      "center": [
+        2367,
+        150
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 7,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2469,
+        138,
+        2495,
+        164
+      ],
+      "center": [
+        2482,
+        151
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 8,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        78,
+        139,
+        148,
+        164
+      ],
+      "center": [
+        113,
+        151
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 9,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2310,
+        139,
+        2336,
+        163
+      ],
+      "center": [
+        2323,
+        151
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 10,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2426,
+        139,
+        2450,
+        163
+      ],
+      "center": [
+        2438,
+        151
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 11,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2225,
+        171,
+        2422,
+        211
+      ],
+      "center": [
+        2323,
+        191
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 12,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        655,
+        179,
+        820,
+        379
+      ],
+      "center": [
+        737,
+        279
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 13,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1701,
+        179,
+        2054,
+        296
+      ],
+      "center": [
+        1877,
+        237
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 14,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2124,
+        185,
+        2191,
+        225
+      ],
+      "center": [
+        2157,
+        205
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 15,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        803,
+        195,
+        891,
+        219
+      ],
+      "center": [
+        847,
+        207
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 16,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1610,
+        195,
+        1658,
+        219
+      ],
+      "center": [
+        1634,
+        207
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 17,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2077,
+        198,
+        2112,
+        236
+      ],
+      "center": [
+        2094,
+        217
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 18,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        347,
+        199,
+        380,
+        234
+      ],
+      "center": [
+        363,
+        216
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 19,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1196,
+        201,
+        1264,
+        233
+      ],
+      "center": [
+        1230,
+        217
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 20,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1277,
+        204,
+        1302,
+        228
+      ],
+      "center": [
+        1289,
+        216
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 21,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        816,
+        251,
+        888,
+        311
+      ],
+      "center": [
+        852,
+        281
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 22,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1376,
+        251,
+        1665,
+        288
+      ],
+      "center": [
+        1520,
+        269
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 23,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2053,
+        251,
+        2198,
+        279
+      ],
+      "center": [
+        2125,
+        265
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 24,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        641,
+        255,
+        671,
+        308
+      ],
+      "center": [
+        656,
+        281
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 25,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1675,
+        255,
+        1707,
+        287
+      ],
+      "center": [
+        1691,
+        271
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 26,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1293,
+        258,
+        1318,
+        284
+      ],
+      "center": [
+        1305,
+        271
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 27,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        927,
+        261,
+        989,
+        295
+      ],
+      "center": [
+        958,
+        278
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 28,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1958,
+        273,
+        2008,
+        328
+      ],
+      "center": [
+        1983,
+        300
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 29,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        450,
+        275,
+        477,
+        333
+      ],
+      "center": [
+        463,
+        304
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 30,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        888,
+        288,
+        1030,
+        327
+      ],
+      "center": [
+        959,
+        307
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 31,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1000,
+        288,
+        1508,
+        344
+      ],
+      "center": [
+        1254,
+        316
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 32,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1515,
+        289,
+        1557,
+        323
+      ],
+      "center": [
+        1536,
+        306
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 33,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        797,
+        295,
+        851,
+        338
+      ],
+      "center": [
+        824,
+        316
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 34,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2066,
+        322,
+        2144,
+        383
+      ],
+      "center": [
+        2105,
+        352
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 35,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        251,
+        323,
+        390,
+        412
+      ],
+      "center": [
+        320,
+        367
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 36,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2147,
+        324,
+        2176,
+        385
+      ],
+      "center": [
+        2161,
+        354
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 37,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2181,
+        328,
+        2205,
+        352
+      ],
+      "center": [
+        2193,
+        340
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 38,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        827,
+        330,
+        866,
+        378
+      ],
+      "center": [
+        846,
+        354
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 39,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        432,
+        335,
+        536,
+        501
+      ],
+      "center": [
+        484,
+        418
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 40,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1314,
+        353,
+        1370,
+        392
+      ],
+      "center": [
+        1342,
+        372
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 41,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        876,
+        357,
+        1028,
+        456
+      ],
+      "center": [
+        952,
+        406
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 42,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2087,
+        359,
+        2209,
+        407
+      ],
+      "center": [
+        2148,
+        383
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 43,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1512,
+        388,
+        1583,
+        456
+      ],
+      "center": [
+        1547,
+        422
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 44,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        606,
+        403,
+        880,
+        557
+      ],
+      "center": [
+        743,
+        480
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 45,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1185,
+        407,
+        1286,
+        444
+      ],
+      "center": [
+        1235,
+        425
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 46,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1294,
+        407,
+        1359,
+        443
+      ],
+      "center": [
+        1326,
+        425
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 47,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1361,
+        407,
+        1394,
+        443
+      ],
+      "center": [
+        1377,
+        425
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 48,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1037,
+        409,
+        1067,
+        444
+      ],
+      "center": [
+        1052,
+        426
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 49,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1111,
+        409,
+        1175,
+        444
+      ],
+      "center": [
+        1143,
+        426
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 50,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1394,
+        409,
+        1427,
+        444
+      ],
+      "center": [
+        1410,
+        426
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 51,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1427,
+        409,
+        1457,
+        443
+      ],
+      "center": [
+        1442,
+        426
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 52,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1461,
+        409,
+        1502,
+        443
+      ],
+      "center": [
+        1481,
+        426
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 53,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        420,
+        67,
+        456
+      ],
+      "center": [
+        49,
+        438
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 54,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        314,
+        432,
+        389,
+        493
+      ],
+      "center": [
+        351,
+        462
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 55,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2087,
+        433,
+        2208,
+        516
+      ],
+      "center": [
+        2147,
+        474
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 56,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        283,
+        434,
+        312,
+        496
+      ],
+      "center": [
+        297,
+        465
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 57,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1474,
+        455,
+        1524,
+        484
+      ],
+      "center": [
+        1499,
+        469
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 58,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        462,
+        67,
+        498
+      ],
+      "center": [
+        49,
+        480
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 59,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        252,
+        472,
+        460,
+        626
+      ],
+      "center": [
+        356,
+        549
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 60,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1440,
+        475,
+        1526,
+        633
+      ],
+      "center": [
+        1483,
+        554
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 61,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1748,
+        475,
+        1812,
+        523
+      ],
+      "center": [
+        1780,
+        499
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 62,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1118,
+        484,
+        1162,
+        529
+      ],
+      "center": [
+        1140,
+        506
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 63,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        432,
+        492,
+        498,
+        604
+      ],
+      "center": [
+        465,
+        548
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 64,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        483,
+        494,
+        522,
+        561
+      ],
+      "center": [
+        502,
+        527
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 65,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        504,
+        67,
+        540
+      ],
+      "center": [
+        49,
+        522
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 66,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1504,
+        530,
+        1610,
+        623
+      ],
+      "center": [
+        1557,
+        576
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 67,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1008,
+        533,
+        1075,
+        597
+      ],
+      "center": [
+        1041,
+        565
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 68,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2087,
+        543,
+        2208,
+        626
+      ],
+      "center": [
+        2147,
+        584
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 69,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        546,
+        67,
+        582
+      ],
+      "center": [
+        49,
+        564
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 70,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        422,
+        551,
+        482,
+        640
+      ],
+      "center": [
+        452,
+        595
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 71,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        694,
+        554,
+        758,
+        641
+      ],
+      "center": [
+        726,
+        597
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 72,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        871,
+        571,
+        989,
+        673
+      ],
+      "center": [
+        930,
+        622
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 73,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        761,
+        583,
+        804,
+        644
+      ],
+      "center": [
+        782,
+        613
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 74,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        588,
+        67,
+        624
+      ],
+      "center": [
+        49,
+        606
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 75,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        488,
+        604,
+        575,
+        652
+      ],
+      "center": [
+        531,
+        628
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 76,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1611,
+        615,
+        1714,
+        687
+      ],
+      "center": [
+        1662,
+        651
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 77,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1569,
+        620,
+        1604,
+        661
+      ],
+      "center": [
+        1586,
+        640
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 78,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        246,
+        628,
+        404,
+        656
+      ],
+      "center": [
+        325,
+        642
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 79,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        630,
+        67,
+        666
+      ],
+      "center": [
+        49,
+        648
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 80,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2070,
+        633,
+        2212,
+        711
+      ],
+      "center": [
+        2141,
+        672
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 81,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        394,
+        635,
+        521,
+        717
+      ],
+      "center": [
+        457,
+        676
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 82,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        837,
+        641,
+        885,
+        686
+      ],
+      "center": [
+        861,
+        663
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 83,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        712,
+        645,
+        836,
+        745
+      ],
+      "center": [
+        774,
+        695
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 84,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1601,
+        650,
+        1823,
+        804
+      ],
+      "center": [
+        1712,
+        727
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 85,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        251,
+        653,
+        359,
+        736
+      ],
+      "center": [
+        305,
+        694
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 86,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        672,
+        67,
+        708
+      ],
+      "center": [
+        49,
+        690
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 87,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1210,
+        676,
+        1263,
+        709
+      ],
+      "center": [
+        1236,
+        692
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 88,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1169,
+        692,
+        1206,
+        730
+      ],
+      "center": [
+        1187,
+        711
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 89,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1203,
+        708,
+        1240,
+        738
+      ],
+      "center": [
+        1221,
+        723
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 90,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        714,
+        67,
+        750
+      ],
+      "center": [
+        49,
+        732
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 91,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        246,
+        737,
+        2108,
+        1287
+      ],
+      "center": [
+        1177,
+        1012
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 92,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        756,
+        67,
+        792
+      ],
+      "center": [
+        49,
+        774
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 93,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2147,
+        762,
+        2178,
+        790
+      ],
+      "center": [
+        2162,
+        776
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 94,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2149,
+        792,
+        2177,
+        822
+      ],
+      "center": [
+        2163,
+        807
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 95,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        798,
+        67,
+        834
+      ],
+      "center": [
+        49,
+        816
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 96,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        840,
+        67,
+        876
+      ],
+      "center": [
+        49,
+        858
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 97,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        882,
+        67,
+        918
+      ],
+      "center": [
+        49,
+        900
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 98,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        924,
+        67,
+        960
+      ],
+      "center": [
+        49,
+        942
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 99,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        966,
+        67,
+        1002
+      ],
+      "center": [
+        49,
+        984
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 100,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2101,
+        1003,
+        2192,
+        1094
+      ],
+      "center": [
+        2146,
+        1048
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 101,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        1008,
+        67,
+        1044
+      ],
+      "center": [
+        49,
+        1026
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 102,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2269,
+        1023,
+        2347,
+        1047
+      ],
+      "center": [
+        2308,
+        1035
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 103,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        1050,
+        67,
+        1086
+      ],
+      "center": [
+        49,
+        1068
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 104,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2119,
+        1079,
+        2187,
+        1215
+      ],
+      "center": [
+        2153,
+        1147
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 105,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        1092,
+        67,
+        1128
+      ],
+      "center": [
+        49,
+        1110
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 106,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2121,
+        1172,
+        2182,
+        1252
+      ],
+      "center": [
+        2151,
+        1212
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 107,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2092,
+        1183,
+        2130,
+        1212
+      ],
+      "center": [
+        2111,
+        1197
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 108,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        1221,
+        67,
+        1257
+      ],
+      "center": [
+        49,
+        1239
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 109,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        1263,
+        67,
+        1299
+      ],
+      "center": [
+        49,
+        1281
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 110,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        31,
+        1305,
+        67,
+        1341
+      ],
+      "center": [
+        49,
+        1323
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 111,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        684,
+        1311,
+        842,
+        1335
+      ],
+      "center": [
+        763,
+        1323
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 112,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2212,
+        1336,
+        2565,
+        1438
+      ],
+      "center": [
+        2388,
+        1387
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 113,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        407,
+        1339,
+        716,
+        1363
+      ],
+      "center": [
+        561,
+        1351
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 114,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1821,
+        1392,
+        1912,
+        1429
+      ],
+      "center": [
+        1866,
+        1410
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 115,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1956,
+        1392,
+        2034,
+        1429
+      ],
+      "center": [
+        1995,
+        1410
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 116,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2038,
+        1392,
+        2144,
+        1429
+      ],
+      "center": [
+        2091,
+        1410
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 117,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        1916,
+        1393,
+        1952,
+        1429
+      ],
+      "center": [
+        1934,
+        1411
+      ],
+      "confirmed": false
+    },
+    {
+      "id": 118,
+      "kind": "box",
+      "label": "",
+      "bbox": [
+        2148,
+        1393,
+        2184,
+        1429
+      ],
+      "center": [
+        2166,
+        1411
+      ],
+      "confirmed": false
+    }
+  ]
+}

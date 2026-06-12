@@ -69,13 +69,17 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
     _p("카탈로그 저장 중…", 80)
     out = save_inspection(root / "inspections" / datetime.now().strftime("%Y%m%d_%H%M%S"),
                           png, elements)
+    warning = None
     if use_llm and elements:
         _check_cancel()
         _p("LLM 라벨링 중 (Claude 구독 호출 — 수십 초~수 분, 호출 중에는 중단 불가)…", -1)
-        from companion.providers.claude_agent import ClaudeAgentProvider
-        elements = label_elements(elements, out / "annotated.png", ClaudeAgentProvider())
-        save_inspection(out, png, elements)
-    return out, elements, game_name
+        try:
+            from companion.providers.claude_agent import ClaudeAgentProvider
+            elements = label_elements(elements, out / "annotated.png", ClaudeAgentProvider())
+            save_inspection(out, png, elements)
+        except Exception as e:  # 라벨링은 보강 단계 — 실패해도 CV 카탈로그는 유효
+            warning = f"LLM 라벨링 실패({e}) — CV·OCR 결과만 저장됨"
+    return out, elements, game_name, warning
 
 
 class InspectPanel(QWidget):
@@ -280,7 +284,7 @@ class InspectPanel(QWidget):
         self.status.setText(("중단됨: " if "중단" in msg else "오류: ") + msg)
 
     def _on_done(self, payload) -> None:
-        self.out_dir, self.elements, self.game_name = payload
+        self.out_dir, self.elements, self.game_name, warning = payload
         self._dirty = False
         self.run_btn.setEnabled(True)
         self.cancel_btn.setEnabled(False)
@@ -290,8 +294,11 @@ class InspectPanel(QWidget):
         self.confirm_btn.setEnabled(True)
         self.save_btn.setEnabled(False)
         confirmed = sum(1 for e in self.elements if e.confirmed)
-        self.status.setText(f"요소 {len(self.elements)}개 (라이브러리 확정 {confirmed}개 자동 인식)"
-                            f" — {self.out_dir} · 오탐은 클릭→Del, 누락은 드래그로 추가")
+        msg = (f"요소 {len(self.elements)}개 (라이브러리 확정 {confirmed}개 자동 인식)"
+               f" — {self.out_dir} · 오탐은 클릭→Del, 누락은 드래그로 추가")
+        if warning:
+            msg = f"⚠ {warning} · " + msg
+        self.status.setText(msg)
         self.editor.load(self.out_dir / "source.png", self.elements)
         self._fill_table()
 
