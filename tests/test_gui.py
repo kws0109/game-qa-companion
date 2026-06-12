@@ -39,3 +39,21 @@ def test_main_window_constructs(tmp_path: Path):
     w = MainWindow(root=tmp_path)
     assert w.tabs.count() == 4
     assert w.tabs.tabText(3) == "라이브러리"
+
+
+def test_make_icon_and_crash_log(tmp_path: Path):
+    import sys
+    from PySide6.QtWidgets import QApplication
+    from companion.gui.app import install_crash_logging, make_icon
+    QApplication.instance() or QApplication([])
+    assert not make_icon().isNull()
+    old_hook = sys.excepthook
+    try:
+        log = install_crash_logging(tmp_path)
+        try:
+            raise ValueError("crash-test")
+        except ValueError:
+            sys.excepthook(*sys.exc_info())
+        assert "crash-test" in log.read_text(encoding="utf-8")
+    finally:
+        sys.excepthook = old_hook
