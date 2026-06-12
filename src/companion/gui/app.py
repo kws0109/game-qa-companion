@@ -30,6 +30,10 @@ class MainWindow(QMainWindow):
         self.tabs.currentChanged.connect(self._on_tab)
         self.setCentralWidget(self.tabs)
 
+        from companion.gui.claude_status import ClaudeStatusWidget
+        self.claude_status = ClaudeStatusWidget()
+        self.statusBar().addPermanentWidget(self.claude_status)
+
     def _on_tab(self, idx: int) -> None:
         # 탭 전환 시 목록 동기화 — 캡처 직후 세션이 바로 보이게
         if self.tabs.widget(idx) is self.sessions:
