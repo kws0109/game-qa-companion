@@ -260,7 +260,8 @@ confirmed: true 인 요소는 QA가 이미 확정한 정답이다 — 응답에 
 주석 이미지를 Read 도구로 **한 번만** 읽고, 나머지 요소의 역할과 이름을 판단해 아래 JSON으로만 답하라:
 {{"elements": [{{"id": 1, "role": "button|icon|gauge|text|panel|minimap|unknown", "name": "짧은 한국어 이름"}}]}}
 
-규칙: 좌표·id는 절대 수정하지 말 것. 화면에서 식별 불가능한 요소는 role을 unknown으로."""
+규칙: 좌표·id는 절대 수정하지 말 것. UI가 아닌 것 — 지형·배경 오브젝트·캐릭터 모델·이펙트 —
+이나 식별 불가능한 요소는 role을 unknown으로 (unknown은 이후 자동 제거된다)."""
 
 
 def label_elements(elements: list[UIElement], annotated_path: Path,
@@ -290,14 +291,32 @@ def label_elements(elements: list[UIElement], annotated_path: Path,
     return elements
 
 
+def prune_unknown(elements: list[UIElement]) -> tuple[list[UIElement], int]:
+    """LLM이 unknown으로 판정한 요소(배경·캐릭터 등 UI 아님) 제거. 확정 요소는 보호.
+
+    반환: (정리된 목록 — id 재부여, 제거 수)
+    """
+    kept = [e for e in elements if e.confirmed or e.kind != "unknown"]
+    removed = len(elements) - len(kept)
+    kept.sort(key=lambda e: (e.bbox[1], e.bbox[0]))
+    for i, e in enumerate(kept, 1):
+        e.id = i
+    return kept, removed
+
+
 def save_inspection(out_dir: str | Path, png: bytes,
                     elements: list[UIElement]) -> Path:
     """카탈로그 저장: source.png / annotated.png / elements.json / crops/elem_NNN.png.
 
     crops는 OpenCV 템플릿 매칭용 에셋으로 바로 사용 가능 — 스크립트 작성 보조의 핵심 산출물.
+    재저장 시 기존 crops를 비워 삭제된 요소의 잔여 파일이 남지 않게 한다.
     """
     out = Path(out_dir)
-    (out / "crops").mkdir(parents=True, exist_ok=True)
+    crops = out / "crops"
+    if crops.exists():
+        for stale in crops.glob("*.png"):
+            stale.unlink()
+    crops.mkdir(parents=True, exist_ok=True)
     (out / "source.png").write_bytes(png)
     (out / "annotated.png").write_bytes(render_overlay(png, elements))
     img = _decode(png)
