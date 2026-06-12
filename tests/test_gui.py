@@ -37,5 +37,5 @@ def test_main_window_constructs(tmp_path: Path):
     from companion.gui.app import MainWindow
     app = QApplication.instance() or QApplication([])
     w = MainWindow(root=tmp_path)
-    assert w.tabs.count() == 3
-    assert w.tabs.tabText(2) == "Inspect"
+    assert w.tabs.count() == 4
+    assert w.tabs.tabText(3) == "라이브러리"

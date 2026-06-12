@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QTabWidget
 
 from companion.gui.capture_panel import CapturePanel
 from companion.gui.inspect_panel import InspectPanel
+from companion.gui.library_panel import LibraryPanel
 from companion.gui.sessions_panel import SessionsPanel
 
 
@@ -21,9 +22,11 @@ class MainWindow(QMainWindow):
         self.capture = CapturePanel(root)
         self.sessions = SessionsPanel(root)
         self.inspect = InspectPanel(root)
+        self.library = LibraryPanel(root)
         self.tabs.addTab(self.capture, "캡처")
         self.tabs.addTab(self.sessions, "세션·분석")
         self.tabs.addTab(self.inspect, "Inspect")
+        self.tabs.addTab(self.library, "라이브러리")
         self.tabs.currentChanged.connect(self._on_tab)
         self.setCentralWidget(self.tabs)
 
@@ -33,6 +36,8 @@ class MainWindow(QMainWindow):
             self.sessions.refresh()
         elif self.tabs.widget(idx) is self.inspect:
             self.inspect.reload_sessions()
+        elif self.tabs.widget(idx) is self.library:
+            self.library.reload_games()
 
 
 def main() -> None:

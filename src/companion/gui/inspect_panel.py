@@ -19,20 +19,21 @@ from companion.gui.workers import FuncWorker
 def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | None,
                  stable_session: Path | None, threshold: float,
                  use_ocr: bool, use_llm: bool):
-    from companion.vision.elements import detect_elements, label_elements, save_inspection
+    from companion.vision.elements import (
+        apply_library, detect_elements, label_elements, save_inspection,
+    )
+    cfg = None
+    if cfg_path:
+        from companion.config import GameConfig
+        cfg = GameConfig.load(cfg_path)
     if mode == "image":
         png = Path(image_path).read_bytes()
+    elif mode == "windows":
+        from companion.capture.windows import WindowsCapture
+        png = WindowsCapture(window_title=cfg.capture_window_title if cfg else None).grab()
     else:
-        cfg = None
-        if cfg_path:
-            from companion.config import GameConfig
-            cfg = GameConfig.load(cfg_path)
-        if mode == "windows":
-            from companion.capture.windows import WindowsCapture
-            png = WindowsCapture(window_title=cfg.capture_window_title if cfg else None).grab()
-        else:
-            from companion.capture.adb import AdbCapture
-            png = AdbCapture(serial=cfg.capture_adb_serial if cfg else None).grab()
+        from companion.capture.adb import AdbCapture
+        png = AdbCapture(serial=cfg.capture_adb_serial if cfg else None).grab()
     mask = None
     if stable_session is not None:
         from companion.vision.elements import stability_mask
@@ -42,13 +43,18 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
         from companion.vision.ocr import OcrEngine
         engine = OcrEngine()
     elements = detect_elements(png, ocr_engine=engine, mask=mask)
+    game_name = cfg.name if cfg else "default"
+    from companion.library import ElementLibrary
+    lib = ElementLibrary(root, game_name)
+    if lib.file.exists():  # 확정 요소 = 정답 — 검출 결과에 먼저 강제 적용
+        elements = apply_library(png, elements, lib)
     out = save_inspection(root / "inspections" / datetime.now().strftime("%Y%m%d_%H%M%S"),
                           png, elements)
     if use_llm and elements:
         from companion.providers.claude_agent import ClaudeAgentProvider
         elements = label_elements(elements, out / "annotated.png", ClaudeAgentProvider())
         save_inspection(out, png, elements)
-    return out, elements
+    return out, elements, game_name
 
 
 class InspectPanel(QWidget):
@@ -119,8 +125,12 @@ class InspectPanel(QWidget):
         self.open_btn = QPushButton("카탈로그 폴더 열기")
         self.open_btn.clicked.connect(self._open_folder)
         self.open_btn.setEnabled(False)
+        self.confirm_btn = QPushButton("선택 요소를 라이브러리에 확정 등록")
+        self.confirm_btn.clicked.connect(self._confirm_selected)
+        self.confirm_btn.setEnabled(False)
         btn_row.addWidget(self.run_btn)
         btn_row.addWidget(self.open_btn)
+        btn_row.addWidget(self.confirm_btn)
         btn_row.addStretch()
         lay.addLayout(btn_row)
 
@@ -134,8 +144,8 @@ class InspectPanel(QWidget):
 
         right = QWidget()
         rlay = QVBoxLayout(right)
-        self.table = QTableWidget(0, 4)
-        self.table.setHorizontalHeaderLabels(["id", "종류", "라벨", "중심 좌표"])
+        self.table = QTableWidget(0, 5)
+        self.table.setHorizontalHeaderLabels(["id", "종류", "라벨", "중심 좌표", "확정"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.table.itemSelectionChanged.connect(self._show_crop)
@@ -181,18 +191,52 @@ class InspectPanel(QWidget):
         self._worker.start()
 
     def _on_done(self, payload) -> None:
-        self.out_dir, self.elements = payload
+        self.out_dir, self.elements, self.game_name = payload
         self.run_btn.setEnabled(True)
         self.open_btn.setEnabled(True)
-        self.status.setText(f"요소 {len(self.elements)}개 — {self.out_dir}")
+        self.confirm_btn.setEnabled(True)
+        confirmed = sum(1 for e in self.elements if e.confirmed)
+        self.status.setText(f"요소 {len(self.elements)}개 (라이브러리 확정 {confirmed}개 자동 인식)"
+                            f" — {self.out_dir}")
         pix = QPixmap(str(self.out_dir / "annotated.png"))
         self.annotated.setPixmap(pix.scaledToWidth(
             900, Qt.TransformationMode.SmoothTransformation))
+        self._fill_table()
+
+    def _fill_table(self) -> None:
         self.table.setRowCount(len(self.elements))
         for r, e in enumerate(self.elements):
             for c, val in enumerate([str(e.id), e.kind, e.label,
-                                     f"({e.center[0]}, {e.center[1]})"]):
+                                     f"({e.center[0]}, {e.center[1]})",
+                                     "✓" if e.confirmed else ""]):
                 self.table.setItem(r, c, QTableWidgetItem(val))
+
+    def _confirm_selected(self) -> None:
+        rows = self.table.selectionModel().selectedRows()
+        if not rows or self.out_dir is None:
+            self.status.setText("등록할 요소를 테이블에서 선택하세요")
+            return
+        e = self.elements[rows[0].row()]
+        from PySide6.QtWidgets import QInputDialog
+        from companion.library import ElementLibrary
+        lib = ElementLibrary(self.root, getattr(self, "game_name", "default"))
+        screens = list(lib.tree().keys()) or ["메인 HUD"]
+        screen, ok = QInputDialog.getItem(self, "화면 그룹", "이 요소가 속한 화면:",
+                                          screens, 0, editable=True)
+        if not ok or not screen.strip():
+            return
+        name, ok = QInputDialog.getText(self, "요소 이름", "확정 이름:", text=e.label or "")
+        if not ok or not name.strip():
+            return
+        crop_file = self.out_dir / "crops" / f"elem_{e.id:03d}.png"
+        crop_png = crop_file.read_bytes() if crop_file.exists() else None
+        kind = e.kind if e.kind not in ("box", "text") else "button"
+        lib.add(screen.strip(), name.strip(), kind, e.bbox, e.center, crop_png)
+        e.confirmed = True
+        e.label = name.strip()
+        self._fill_table()
+        self.status.setText(f"라이브러리 등록: [{screen.strip()}] {name.strip()} "
+                            f"— 이후 inspect에서 자동 인식되며 LLM이 덮어쓸 수 없습니다")
 
     def _show_crop(self) -> None:
         rows = self.table.selectionModel().selectedRows()
