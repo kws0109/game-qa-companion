@@ -17,11 +17,10 @@ class BoxEditor(QLabel):
     boxDrawn = Signal(tuple)   # (l, t, r, b) — 원본 이미지 좌표
     boxSelected = Signal(int)  # elements 리스트 인덱스
 
-    MAX_WIDTH = 900
-
     def __init__(self):
         super().__init__("결과 이미지")
         self.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        self._orig: QPixmap | None = None
         self._pix: QPixmap | None = None
         self._scale = 1.0
         self.elements: list = []
@@ -32,14 +31,29 @@ class BoxEditor(QLabel):
 
     # --- state ---------------------------------------------------------
     def load(self, source_png: str | Path, elements: list) -> None:
-        orig = QPixmap(str(source_png))
-        self._scale = min(1.0, self.MAX_WIDTH / max(1, orig.width()))
-        self._pix = orig.scaledToWidth(int(orig.width() * self._scale),
-                                       Qt.TransformationMode.SmoothTransformation)
+        self._orig = QPixmap(str(source_png))
         self.elements = elements
         self.selected = -1
-        self.setFixedSize(self._pix.size())
+        self._rescale()
+
+    def _rescale(self) -> None:
+        """뷰포트에 맞춰 전체가 보이도록 축소 — 좌표는 원본 픽셀 기준 유지, 표시만 변환."""
+        if self._orig is None or self._orig.width() == 0:
+            return
+        avail_w = max(1, self.width())
+        avail_h = max(1, self.height())
+        self._scale = min(avail_w / self._orig.width(),
+                          avail_h / self._orig.height(), 1.0)
+        self._pix = self._orig.scaled(
+            int(self._orig.width() * self._scale),
+            int(self._orig.height() * self._scale),
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation)
         self.update()
+
+    def resizeEvent(self, event) -> None:  # noqa: N802 (Qt API)
+        super().resizeEvent(event)
+        self._rescale()
 
     def set_selected(self, idx: int) -> None:
         self.selected = idx

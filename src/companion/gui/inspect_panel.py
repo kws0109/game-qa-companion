@@ -81,13 +81,21 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
     game_name = cfg.name if cfg else "default"
     from companion.library import ElementLibrary
     lib = ElementLibrary(root, game_name)
+    warnings: list[str] = []
     if lib.file.exists():  # 확정 요소 = 정답 — 검출 결과에 먼저 강제 적용
         _p("라이브러리 확정 요소 매칭 중…", 70)
         elements = apply_library(png, elements, lib)
+        from companion.vision.elements import png_size
+        cur = png_size(png)
+        registered = {tuple(rec["resolution"]) for _, _, rec in lib.all_elements()
+                      if rec.get("resolution")}
+        if registered and cur not in registered:
+            warnings.append(
+                f"해상도 불일치: 라이브러리 등록 {sorted(registered)[0]} vs 현재 {cur} — "
+                "템플릿 매칭·좌표가 어긋날 수 있습니다. 같은 게임은 같은 해상도로 캡처하세요")
     _p("카탈로그 저장 중…", 80)
     out = save_inspection(root / "inspections" / datetime.now().strftime("%Y%m%d_%H%M%S"),
                           png, elements)
-    warning = None
     if use_llm and elements:
         _check_cancel()
         _p("LLM 라벨링 중 (Claude 구독 호출 — 수십 초~수 분, 호출 중에는 중단 불가)…", -1)
@@ -97,8 +105,8 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
                                       make_provider("claude", root))
             save_inspection(out, png, elements)
         except Exception as e:  # 라벨링은 보강 단계 — 실패해도 CV 카탈로그는 유효
-            warning = f"LLM 라벨링 실패({e}) — CV·OCR 결과만 저장됨"
-    return out, elements, game_name, warning
+            warnings.append(f"LLM 라벨링 실패({e}) — CV·OCR 결과만 저장됨")
+    return out, elements, game_name, (" · ".join(warnings) or None)
 
 
 class InspectPanel(QWidget):
@@ -192,7 +200,7 @@ class InspectPanel(QWidget):
         self.editor.boxDrawn.connect(self._on_box_drawn)
         scroll = QScrollArea()
         scroll.setWidget(self.editor)
-        scroll.setWidgetResizable(False)
+        scroll.setWidgetResizable(True)  # 에디터가 뷰포트를 채우고 이미지는 그 안에 맞춤
         llay.addWidget(scroll, stretch=1)
 
         edit_row = QHBoxLayout()
@@ -431,7 +439,11 @@ class InspectPanel(QWidget):
         crop_file = self.out_dir / "crops" / f"elem_{e.id:03d}.png"
         crop_png = crop_file.read_bytes() if crop_file.exists() else None
         kind = e.kind if e.kind not in ("box", "text") else "button"
-        lib.add(screen.strip(), name.strip(), kind, e.bbox, e.center, crop_png)
+        resolution = None
+        if self.editor._orig is not None and self.editor._orig.width() > 0:
+            resolution = (self.editor._orig.width(), self.editor._orig.height())
+        lib.add(screen.strip(), name.strip(), kind, e.bbox, e.center, crop_png,
+                resolution=resolution)
         e.confirmed = True
         e.label = name.strip()
         self._fill_table()

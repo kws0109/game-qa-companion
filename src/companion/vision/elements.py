@@ -31,6 +31,12 @@ def _decode(png: bytes) -> np.ndarray:
     return img
 
 
+def png_size(png: bytes) -> tuple[int, int]:
+    """(width, height) — 해상도 일치 검사용."""
+    h, w = _decode(png).shape[:2]
+    return (w, h)
+
+
 def _iou(a: tuple, b: tuple) -> float:
     il, it = max(a[0], b[0]), max(a[1], b[1])
     ir, ib = min(a[2], b[2]), min(a[3], b[3])

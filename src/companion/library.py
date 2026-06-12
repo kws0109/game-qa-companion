@@ -44,7 +44,8 @@ class ElementLibrary:
 
     def add(self, screen: str, name: str, kind: str,
             bbox: tuple[int, int, int, int], center: tuple[int, int],
-            crop_png: bytes | None) -> str:
+            crop_png: bytes | None,
+            resolution: tuple[int, int] | None = None) -> str:
         elements = self.data["screens"].setdefault(screen, {"elements": {}})["elements"]
         eid = base = _slug(name)
         n = 2
@@ -59,6 +60,7 @@ class ElementLibrary:
         elements[eid] = {
             "name": name, "kind": kind, "bbox": list(bbox), "center": list(center),
             "template": template,
+            "resolution": list(resolution) if resolution else None,  # 좌표·템플릿의 기준 해상도
             "confirmed_at": datetime.now().isoformat(timespec="seconds"),
         }
         self.save()

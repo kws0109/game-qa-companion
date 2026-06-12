@@ -36,12 +36,19 @@ def test_hit_test_includes_number_tag_zone(tmp_path, make_png):
     assert ed.hit_test(300, 5) == -1
 
 
-def test_load_sets_scale_for_wide_images(tmp_path, make_png):
+def test_load_fits_viewport(tmp_path, make_png):
     from PySide6.QtWidgets import QApplication
     from companion.gui.image_editor import BoxEditor
     QApplication.instance() or QApplication([])
     src = tmp_path / "wide.png"
     src.write_bytes(make_png((0, 0, 0), size=(1800, 600)))
+    app = QApplication.instance()
     ed = BoxEditor()
+    ed.show()  # 숨김 위젯은 resizeEvent를 받지 않음 — offscreen에서도 show 필요
+    ed.resize(900, 600)
+    app.processEvents()
     ed.load(src, [])
-    assert ed._scale == 900 / 1800  # MAX_WIDTH 기준 축소
+    assert abs(ed._scale - 0.5) < 0.01  # 1800px 폭 → 900px 뷰포트에 맞춤 (스크롤 없음)
+    ed.resize(450, 600)
+    app.processEvents()
+    assert abs(ed._scale - 0.25) < 0.01  # 창 줄이면 따라 축소
