@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.tabs)
 
         from companion.gui.claude_status import ClaudeStatusWidget
-        self.claude_status = ClaudeStatusWidget()
+        self.claude_status = ClaudeStatusWidget(root)
         self.statusBar().addPermanentWidget(self.claude_status)
 
     def _on_tab(self, idx: int) -> None:

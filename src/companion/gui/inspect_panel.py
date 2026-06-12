@@ -74,8 +74,9 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
         _check_cancel()
         _p("LLM 라벨링 중 (Claude 구독 호출 — 수십 초~수 분, 호출 중에는 중단 불가)…", -1)
         try:
-            from companion.providers.claude_agent import ClaudeAgentProvider
-            elements = label_elements(elements, out / "annotated.png", ClaudeAgentProvider())
+            from companion.gui.util import make_provider
+            elements = label_elements(elements, out / "annotated.png",
+                                      make_provider("claude", root))
             save_inspection(out, png, elements)
         except Exception as e:  # 라벨링은 보강 단계 — 실패해도 CV 카탈로그는 유효
             warning = f"LLM 라벨링 실패({e}) — CV·OCR 결과만 저장됨"

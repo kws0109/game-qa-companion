@@ -13,7 +13,8 @@ from companion.gui.workers import FuncWorker
 
 
 def _run_analyze(session: Path, cfg_path: str, provider_name: str,
-                 max_candidates: int, use_ocr: bool, progress=None, cancel=None):
+                 max_candidates: int, use_ocr: bool, root: Path | None = None,
+                 progress=None, cancel=None):
     from companion.analysis.pipeline import analyze_session
     from companion.analysis.report import render_report
     from companion.config import GameConfig
@@ -23,7 +24,8 @@ def _run_analyze(session: Path, cfg_path: str, provider_name: str,
             progress("OCR 엔진 로드 중 (최초 1회는 모델 로드로 수십 초)…", 5)
         from companion.vision.ocr import OcrEngine
         engine = OcrEngine()
-    result = analyze_session(session, GameConfig.load(cfg_path), make_provider(provider_name),
+    result = analyze_session(session, GameConfig.load(cfg_path),
+                             make_provider(provider_name, root),
                              ocr_engine=engine, max_candidates=max_candidates,
                              progress=progress, cancel=cancel)
     return result, render_report(session)
@@ -34,9 +36,9 @@ def _run_import(src: str, base: Path, game: str):
     return import_artifacts(src, base, game=game)
 
 
-def _run_ask(session: Path, question: str):
+def _run_ask(session: Path, question: str, root: Path | None = None):
     from companion.analysis.qa import ask
-    return ask(session, question, make_provider("claude"))
+    return ask(session, question, make_provider("claude", root))
 
 
 class SessionsPanel(QWidget):
@@ -186,7 +188,7 @@ class SessionsPanel(QWidget):
         provider = self.provider_combo.currentData()
         self._worker = FuncWorker(_run_analyze, s["path"], cfg, provider,
                                   self.max_cand.value(), self.ocr_check.isChecked(),
-                                  with_progress=True)
+                                  self.root, with_progress=True)
         self._worker.done.connect(self._on_analyzed)
         self._worker.failed.connect(self._on_failed)
         self._worker.progress.connect(self._on_progress)
@@ -222,7 +224,7 @@ class SessionsPanel(QWidget):
         if not (s["path"] / "analysis.json").exists():
             self._idle("분석을 먼저 실행하세요")
             return
-        self._worker = FuncWorker(_run_ask, s["path"], q)
+        self._worker = FuncWorker(_run_ask, s["path"], q, self.root)
         self._worker.done.connect(
             lambda a: (self.report.append(f"\n\n---\n**Q. {q}**\n\n{a}"), self._idle("응답 수신")))
         self._worker.failed.connect(self._idle)

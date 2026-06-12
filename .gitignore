@@ -3,3 +3,5 @@ __pycache__/
 sessions/
 *.pyc
 .python-version
+app_settings.json
+inspections/

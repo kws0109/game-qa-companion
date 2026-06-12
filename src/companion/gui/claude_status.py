@@ -43,10 +43,11 @@ def _ping() -> str:
 
 
 class ClaudeStatusWidget(QWidget):
-    """상태바용 — 연결 계정·상태 점등 + 실호출 테스트."""
+    """상태바용 — 연결 계정·상태 점등 + 실호출 테스트 + 설정."""
 
-    def __init__(self):
+    def __init__(self, root: Path | None = None):
         super().__init__()
+        self.root = Path(root or Path.cwd())
         self._worker: FuncWorker | None = None
         lay = QHBoxLayout(self)
         lay.setContentsMargins(6, 0, 6, 0)
@@ -55,9 +56,19 @@ class ClaudeStatusWidget(QWidget):
         self.test_btn = QPushButton("연결 테스트")
         self.test_btn.setToolTip("Claude를 1회 실호출해 연결을 확인합니다 — 구독 사용량을 소모합니다")
         self.test_btn.clicked.connect(self._test)
+        self.settings_btn = QPushButton("설정…")
+        self.settings_btn.clicked.connect(self._open_settings)
         lay.addWidget(self.dot)
         lay.addWidget(self.text)
         lay.addWidget(self.test_btn)
+        lay.addWidget(self.settings_btn)
+        self.refresh()
+
+    def _open_settings(self) -> None:
+        from companion.gui.settings_dialog import SettingsDialog
+        dlg = SettingsDialog(self.root, self)
+        run_dialog = dlg.exec  # Qt 모달 루프
+        run_dialog()
         self.refresh()
 
     def refresh(self) -> None:

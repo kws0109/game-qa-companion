@@ -35,10 +35,14 @@ def list_sessions(root: str | Path) -> list[dict]:
     return out
 
 
-def make_provider(name: str):
-    """GUI provider 선택 — fake(무료 드라이런) / claude(구독 연동)."""
+def make_provider(name: str, root: str | Path | None = None):
+    """GUI provider 선택 — fake(무료 드라이런) / claude(구독 연동, 앱 설정 반영)."""
     if name == "claude":
         from companion.providers.claude_agent import ClaudeAgentProvider
+        if root is not None:
+            from companion.gui.settings import AppSettings
+            s = AppSettings.load(root)
+            return ClaudeAgentProvider(model=s.model, max_turns=s.max_turns)
         return ClaudeAgentProvider()
     from companion.providers.base import FakeProvider
     return FakeProvider(responses=[
