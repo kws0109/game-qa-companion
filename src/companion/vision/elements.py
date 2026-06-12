@@ -118,6 +118,14 @@ def detect_boxes(png: bytes, *, min_side: int = 24, max_area_ratio: float = 0.3,
             continue
         if bw * bh > max_area_ratio * w * h:
             continue
+        # bbox 타이트닝 — dilate로 부푼 박스를 원시 엣지 기준으로 조여 영역 오차 제거
+        roi = edges_raw[y:y + bh, x:x + bw]
+        ys, xs = np.nonzero(roi)
+        if len(xs):
+            nx, ny = x + int(xs.min()), y + int(ys.min())
+            nr, nb = x + int(xs.max()) + 1, y + int(ys.max()) + 1
+            if nr - nx >= min_side and nb - ny >= min_side:
+                x, y, bw, bh = nx, ny, nr - nx, nb - ny
         if mask is not None:
             mh, mw = mask.shape[:2]
             if (mh, mw) != (h, w):
@@ -131,7 +139,24 @@ def detect_boxes(png: bytes, *, min_side: int = 24, max_area_ratio: float = 0.3,
         cand.append((x, y, x + bw, y + bh))
     kept: list[tuple] = []
     for b in sorted(cand, key=lambda b: (b[2] - b[0]) * (b[3] - b[1]), reverse=True):
-        if all(_iou(b, k) < 0.6 for k in kept):
+        area_b = (b[2] - b[0]) * (b[3] - b[1])
+        dup = False
+        for k in kept:
+            il, it = max(b[0], k[0]), max(b[1], k[1])
+            ir, ib = min(b[2], k[2]), min(b[3], k[3])
+            inter = max(0, ir - il) * max(0, ib - it)
+            if inter == 0:
+                continue
+            area_k = (k[2] - k[0]) * (k[3] - k[1])
+            if inter / (area_b + area_k - inter) >= 0.6:
+                dup = True  # 거의 같은 박스 — 진짜 중복
+                break
+            # 포함 관계는 중복이 아니다 — 패널 안의 버튼·슬롯은 별도 요소.
+            # 부모의 절반 이상을 차지하는 자식만 같은 요소의 조각으로 보고 제거.
+            if inter / area_b >= 0.9 and area_b >= 0.5 * area_k:
+                dup = True
+                break
+        if not dup:
             kept.append(b)
     kept.sort(key=lambda b: (b[1], b[0]))  # 좌상단 순 — id 안정성
     return kept
