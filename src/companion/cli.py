@@ -49,6 +49,8 @@ def build_parser() -> argparse.ArgumentParser:
     ins.add_argument("--ocr", action="store_true", help="OCR 텍스트 요소 포함")
     ins.add_argument("--stable-from", default=None, metavar="SESSION_DIR",
                      help="세션 프레임들로 시간축 안정(UI) 마스크 생성 — 월드 오탐 제거")
+    ins.add_argument("--std-threshold", type=float, default=30.0,
+                     help="안정 판정 픽셀 표준편차 상한 (낮을수록 엄격, 나이트 크로우 실측 기본 30)")
     ins.add_argument("--out", default="inspections")
     return p
 
@@ -121,7 +123,7 @@ def main(argv: list[str] | None = None) -> None:
         mask = None
         if args.stable_from:
             from companion.vision.elements import stability_mask
-            mask = stability_mask(args.stable_from)
+            mask = stability_mask(args.stable_from, std_threshold=args.std_threshold)
         elements = detect_elements(png, ocr_engine=engine, mask=mask)
         out = save_inspection(
             Path(args.out) / datetime.now().strftime("%Y%m%d_%H%M%S"), png, elements)

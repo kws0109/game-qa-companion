@@ -41,7 +41,7 @@ def _iou(a: tuple, b: tuple) -> float:
 
 
 def stability_mask(session_dir: str | Path, *, sample: int = 20,
-                   std_threshold: float = 12.0) -> np.ndarray:
+                   std_threshold: float = 30.0) -> np.ndarray:
     """세션 프레임들의 픽셀 표준편차로 '시간축 안정 영역' 마스크 생성.
 
     UI(HUD·버튼·패널)는 프레임이 지나도 같은 자리 — 분산이 낮다.
