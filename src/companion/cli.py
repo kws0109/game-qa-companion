@@ -47,6 +47,8 @@ def build_parser() -> argparse.ArgumentParser:
     ins.add_argument("--provider", choices=["none", "claude", "fake"], default="none",
                      help="none=CV·OCR만(무료) / claude=역할·이름 라벨링 추가")
     ins.add_argument("--ocr", action="store_true", help="OCR 텍스트 요소 포함")
+    ins.add_argument("--stable-from", default=None, metavar="SESSION_DIR",
+                     help="세션 프레임들로 시간축 안정(UI) 마스크 생성 — 월드 오탐 제거")
     ins.add_argument("--out", default="inspections")
     return p
 
@@ -116,7 +118,11 @@ def main(argv: list[str] | None = None) -> None:
         if args.ocr:
             from companion.vision.ocr import OcrEngine
             engine = OcrEngine()
-        elements = detect_elements(png, ocr_engine=engine)
+        mask = None
+        if args.stable_from:
+            from companion.vision.elements import stability_mask
+            mask = stability_mask(args.stable_from)
+        elements = detect_elements(png, ocr_engine=engine, mask=mask)
         out = save_inspection(
             Path(args.out) / datetime.now().strftime("%Y%m%d_%H%M%S"), png, elements)
         if args.provider in ("claude", "fake") and elements:

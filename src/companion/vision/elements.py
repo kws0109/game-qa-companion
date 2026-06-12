@@ -40,9 +40,36 @@ def _iou(a: tuple, b: tuple) -> float:
     return inter / float(min(area_a, area_b))  # 포함 관계도 잡도록 min 기준
 
 
-def detect_boxes(png: bytes, *, min_side: int = 24,
-                 max_area_ratio: float = 0.3) -> list[tuple[int, int, int, int]]:
-    """엣지 기반 사각 UI 요소 후보 검출. 게임 화면의 버튼·패널류를 잡는 휴리스틱."""
+def stability_mask(session_dir: str | Path, *, sample: int = 20,
+                   std_threshold: float = 12.0) -> np.ndarray:
+    """세션 프레임들의 픽셀 표준편차로 '시간축 안정 영역' 마스크 생성.
+
+    UI(HUD·버튼·패널)는 프레임이 지나도 같은 자리 — 분산이 낮다.
+    3D 월드(지형·캐릭터·카메라)는 계속 변한다 — 분산이 높다.
+    반환: 안정 영역=255, 가변 영역=0 (uint8).
+    """
+    from companion.session import Manifest
+    d = Path(session_dir)
+    m = Manifest.load(d)
+    step = max(1, len(m.frames) // sample)
+    grays = []
+    shape = None
+    for fr in m.frames[::step][:sample]:
+        g = cv2.cvtColor(_decode((d / fr.file).read_bytes()), cv2.COLOR_BGR2GRAY)
+        if shape is None:
+            shape = g.shape
+        elif g.shape != shape:
+            g = cv2.resize(g, (shape[1], shape[0]))
+        grays.append(g.astype(np.float32))
+    std = np.std(np.stack(grays), axis=0)
+    mask = (std < std_threshold).astype(np.uint8) * 255
+    return cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+
+
+def detect_boxes(png: bytes, *, min_side: int = 24, max_area_ratio: float = 0.3,
+                 mask: np.ndarray | None = None,
+                 mask_coverage: float = 0.6) -> list[tuple[int, int, int, int]]:
+    """엣지 기반 사각 UI 요소 후보 검출. mask를 주면 안정 영역과 60% 이상 겹치는 박스만 유지."""
     img = _decode(png)
     h, w = img.shape[:2]
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -55,6 +82,13 @@ def detect_boxes(png: bytes, *, min_side: int = 24,
             continue
         if bw * bh > max_area_ratio * w * h:
             continue
+        if mask is not None:
+            mh, mw = mask.shape[:2]
+            if (mh, mw) != (h, w):
+                mask = cv2.resize(mask, (w, h), interpolation=cv2.INTER_NEAREST)
+            region = mask[y:y + bh, x:x + bw]
+            if float(np.mean(region > 0)) < mask_coverage:
+                continue  # 월드(가변 영역) 위의 박스 — 버림
         cand.append((x, y, x + bw, y + bh))
     kept: list[tuple] = []
     for b in sorted(cand, key=lambda b: (b[2] - b[0]) * (b[3] - b[1]), reverse=True):
@@ -64,10 +98,11 @@ def detect_boxes(png: bytes, *, min_side: int = 24,
     return kept
 
 
-def detect_elements(png: bytes, ocr_engine=None) -> list[UIElement]:
+def detect_elements(png: bytes, ocr_engine=None,
+                    mask: np.ndarray | None = None) -> list[UIElement]:
     """CV 박스 + (선택) OCR 텍스트를 합쳐 요소 카탈로그 생성. 전부 로컬 — 비용 0."""
     elements: list[UIElement] = []
-    boxes = detect_boxes(png)
+    boxes = detect_boxes(png, mask=mask)
     texts: list[tuple[str, tuple]] = []
     if ocr_engine is not None:
         texts = ocr_engine.read_items(png)
