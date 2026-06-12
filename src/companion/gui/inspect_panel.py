@@ -19,7 +19,8 @@ from companion.gui.workers import FuncWorker
 
 def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | None,
                  stable_session: Path | None, threshold: float,
-                 use_ocr: bool, use_llm: bool, progress=None, cancel=None):
+                 use_ocr: bool, use_llm: bool, burst: bool = True,
+                 text_anchor: bool = False, progress=None, cancel=None):
     def _p(msg: str, pct: int = -1) -> None:
         if progress:
             progress(msg, pct)
@@ -36,18 +37,34 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
         from companion.config import GameConfig
         cfg = GameConfig.load(cfg_path)
     _p("화면 확보 중…", 5)
+    mask = None
     if mode == "image":
         png = Path(image_path).read_bytes()
-    elif mode == "windows":
-        from companion.capture.windows import WindowsCapture
-        png = WindowsCapture(window_title=cfg.capture_window_title if cfg else None).grab()
     else:
-        from companion.capture.adb import AdbCapture
-        png = AdbCapture(serial=cfg.capture_adb_serial if cfg else None).grab()
+        if mode == "windows":
+            from companion.capture.windows import WindowsCapture
+            grabber = WindowsCapture(window_title=cfg.capture_window_title if cfg else None)
+        else:
+            from companion.capture.adb import AdbCapture
+            grabber = AdbCapture(serial=cfg.capture_adb_serial if cfg else None)
+        if burst and stable_session is None:
+            # 버스트 즉석 마스크 — 짧은 연속 캡처로 움직이는 월드와 고정 UI를 분리
+            import time as _time
+            pngs = []
+            for i in range(8):
+                _p(f"버스트 캡처 중 ({i + 1}/8 — 월드 오탐 제거용, 카메라를 살짝 움직이면 더 정확)…",
+                   5 + i * 2)
+                pngs.append(grabber.grab())
+                _check_cancel()
+                _time.sleep(0.3)
+            png = pngs[-1]
+            from companion.vision.elements import stability_mask_from_pngs
+            mask = stability_mask_from_pngs(pngs, std_threshold=threshold)
+        else:
+            png = grabber.grab()
     _check_cancel()
-    mask = None
-    if stable_session is not None:
-        _p("안정성 마스크 계산 중 (세션 프레임 샘플링)…", 15)
+    if stable_session is not None:  # 세션 마스크를 명시 선택했으면 그것이 우선
+        _p("안정성 마스크 계산 중 (세션 프레임 샘플링)…", 22)
         from companion.vision.elements import stability_mask
         mask = stability_mask(stable_session, std_threshold=threshold)
         _check_cancel()
@@ -58,7 +75,8 @@ def _run_inspect(root: Path, mode: str, image_path: str | None, cfg_path: str | 
         engine = OcrEngine()
         _check_cancel()
     _p("UI 요소 검출 중 (CV" + (" + OCR" if engine else "") + ")…", 55)
-    elements = detect_elements(png, ocr_engine=engine, mask=mask)
+    elements = detect_elements(png, ocr_engine=engine, mask=mask,
+                               text_anchor=text_anchor)
     _check_cancel()
     game_name = cfg.name if cfg else "default"
     from companion.library import ElementLibrary
@@ -136,9 +154,14 @@ class InspectPanel(QWidget):
         form.addRow("안정성 마스크 세션", wrap2)
 
         opt_row = QHBoxLayout()
+        self.burst_check = QCheckBox("버스트 마스크 (라이브 캡처 8장 — 월드 오탐 제거, 권장)")
+        self.burst_check.setChecked(True)
         self.ocr_check = QCheckBox("OCR 텍스트 요소")
+        self.anchor_check = QCheckBox("텍스트 앵커 (텍스트 없는 중앙 박스 제거, OCR 필요)")
         self.llm_check = QCheckBox("LLM 역할·이름 라벨링 (claude 구독, 화면당 1회)")
+        opt_row.addWidget(self.burst_check)
         opt_row.addWidget(self.ocr_check)
+        opt_row.addWidget(self.anchor_check)
         opt_row.addWidget(self.llm_check)
         opt_row.addStretch()
         wrap3 = QWidget()
@@ -255,6 +278,7 @@ class InspectPanel(QWidget):
             _run_inspect, self.root, mode, self.image_edit.text().strip() or None,
             self.config_combo.currentData(), Path(stable) if stable else None,
             self.threshold.value(), self.ocr_check.isChecked(), self.llm_check.isChecked(),
+            self.burst_check.isChecked(), self.anchor_check.isChecked(),
             with_progress=True)
         self._worker.done.connect(self._on_done)
         self._worker.failed.connect(self._on_failed)

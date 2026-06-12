@@ -42,22 +42,18 @@ def _iou(a: tuple, b: tuple) -> float:
     return inter / float(min(area_a, area_b))  # 포함 관계도 잡도록 min 기준
 
 
-def stability_mask(session_dir: str | Path, *, sample: int = 20,
-                   std_threshold: float = 30.0) -> np.ndarray:
-    """세션 프레임들의 픽셀 표준편차로 '시간축 안정 영역' 마스크 생성.
+def stability_mask_from_pngs(pngs: list[bytes], *,
+                             std_threshold: float = 30.0) -> np.ndarray:
+    """프레임 묶음의 픽셀 표준편차로 '시간축 안정 영역' 마스크 생성.
 
     UI(HUD·버튼·패널)는 프레임이 지나도 같은 자리 — 분산이 낮다.
-    3D 월드(지형·캐릭터·카메라)는 계속 변한다 — 분산이 높다.
+    3D 월드(지형·캐릭터·카메라·파티클)는 계속 변한다 — 분산이 높다.
     반환: 안정 영역=255, 가변 영역=0 (uint8).
     """
-    from companion.session import Manifest
-    d = Path(session_dir)
-    m = Manifest.load(d)
-    step = max(1, len(m.frames) // sample)
     grays = []
     shape = None
-    for fr in m.frames[::step][:sample]:
-        g = cv2.cvtColor(_decode((d / fr.file).read_bytes()), cv2.COLOR_BGR2GRAY)
+    for b in pngs:
+        g = cv2.cvtColor(_decode(b), cv2.COLOR_BGR2GRAY)
         if shape is None:
             shape = g.shape
         elif g.shape != shape:
@@ -68,14 +64,46 @@ def stability_mask(session_dir: str | Path, *, sample: int = 20,
     return cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
 
 
+def stability_mask(session_dir: str | Path, *, sample: int = 20,
+                   std_threshold: float = 30.0) -> np.ndarray:
+    """세션 프레임을 샘플링해 안정성 마스크 생성 (stability_mask_from_pngs 위임)."""
+    from companion.session import Manifest
+    d = Path(session_dir)
+    m = Manifest.load(d)
+    step = max(1, len(m.frames) // sample)
+    pngs = [(d / fr.file).read_bytes() for fr in m.frames[::step][:sample]]
+    return stability_mask_from_pngs(pngs, std_threshold=std_threshold)
+
+
+def _straightness(edge_roi: np.ndarray) -> float:
+    """축 정렬 직선성 — UI 박스 판별 신호.
+
+    UI 요소의 테두리는 수평·수직 직선이라, 어떤 행/열은 엣지 픽셀로 거의 가득 찬다.
+    바위·초목 같은 유기적 형태의 바운딩 박스는 그런 행과 열을 동시에 갖지 못한다.
+    반환: min(최대 행 채움률, 최대 열 채움률) — 0(유기적)~1(완전한 사각 테두리).
+    """
+    h, w = edge_roi.shape[:2]
+    if h < 2 or w < 2:
+        return 0.0
+    on = (edge_roi > 0).astype(np.float32)
+    row_frac = float(on.sum(axis=1).max()) / w
+    col_frac = float(on.sum(axis=0).max()) / h
+    return min(row_frac, col_frac)
+
+
 def detect_boxes(png: bytes, *, min_side: int = 24, max_area_ratio: float = 0.3,
-                 mask: np.ndarray | None = None,
-                 mask_coverage: float = 0.6) -> list[tuple[int, int, int, int]]:
-    """엣지 기반 사각 UI 요소 후보 검출. mask를 주면 안정 영역과 60% 이상 겹치는 박스만 유지."""
+                 mask: np.ndarray | None = None, mask_coverage: float = 0.6,
+                 min_straightness: float = 0.0) -> list[tuple[int, int, int, int]]:
+    """엣지 기반 사각 UI 요소 후보 검출.
+
+    필터: mask(시간축 안정 영역과 60% 이상 겹침). min_straightness는 실험용 —
+    나이트 크로우 실측에서 반투명 UI를 죽이고 텍스처를 못 걸러 기본 비활성(0).
+    """
     img = _decode(png)
     h, w = img.shape[:2]
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    edges = cv2.dilate(cv2.Canny(gray, 50, 150), np.ones((3, 3), np.uint8))
+    edges_raw = cv2.Canny(gray, 50, 150)
+    edges = cv2.dilate(edges_raw, np.ones((3, 3), np.uint8))
     contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     cand = []
     for c in contours:
@@ -91,6 +119,9 @@ def detect_boxes(png: bytes, *, min_side: int = 24, max_area_ratio: float = 0.3,
             region = mask[y:y + bh, x:x + bw]
             if float(np.mean(region > 0)) < mask_coverage:
                 continue  # 월드(가변 영역) 위의 박스 — 버림
+        if min_straightness > 0 and \
+                _straightness(edges_raw[y:y + bh, x:x + bw]) < min_straightness:
+            continue  # 축 정렬 테두리 없음 — 유기적 형태(월드 오브젝트)로 판단
         cand.append((x, y, x + bw, y + bh))
     kept: list[tuple] = []
     for b in sorted(cand, key=lambda b: (b[2] - b[0]) * (b[3] - b[1]), reverse=True):
@@ -101,8 +132,13 @@ def detect_boxes(png: bytes, *, min_side: int = 24, max_area_ratio: float = 0.3,
 
 
 def detect_elements(png: bytes, ocr_engine=None,
-                    mask: np.ndarray | None = None) -> list[UIElement]:
-    """CV 박스 + (선택) OCR 텍스트를 합쳐 요소 카탈로그 생성. 전부 로컬 — 비용 0."""
+                    mask: np.ndarray | None = None,
+                    text_anchor: bool = False) -> list[UIElement]:
+    """CV 박스 + (선택) OCR 텍스트를 합쳐 요소 카탈로그 생성. 전부 로컬 — 비용 0.
+
+    text_anchor=True (OCR 필요): 텍스트를 품지 않고 화면 가장자리도 아닌 박스를 제거 —
+    "UI 요소는 거의 항상 텍스트를 동반한다"는 휴리스틱. 아이콘 전용 버튼을 위해 가장자리는 예외.
+    """
     elements: list[UIElement] = []
     boxes = detect_boxes(png, mask=mask)
     texts: list[tuple[str, tuple]] = []
@@ -122,6 +158,16 @@ def detect_elements(png: bytes, ocr_engine=None,
         if not inside_any:
             elements.append(UIElement(0, "text", txt, (tl, tt, tr, tb),
                                       ((tl + tr) // 2, (tt + tb) // 2)))
+    if text_anchor and ocr_engine is not None:
+        h, w = _decode(png).shape[:2]
+        margin = 0.08
+
+        def _near_edge(b: tuple) -> bool:
+            return (b[0] <= w * margin or b[1] <= h * margin
+                    or b[2] >= w * (1 - margin) or b[3] >= h * (1 - margin))
+
+        elements = [e for e in elements
+                    if e.kind != "box" or e.label or _near_edge(e.bbox)]
     elements.sort(key=lambda e: (e.bbox[1], e.bbox[0]))
     for i, e in enumerate(elements, 1):
         e.id = i
