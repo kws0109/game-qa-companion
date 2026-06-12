@@ -6,3 +6,4 @@ sessions/
 app_settings.json
 inspections/
 gui_error.log
+library/

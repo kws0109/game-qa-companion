@@ -1,75 +1,83 @@
 # Game QA Companion
 
-게임 플레이 세션(스크린샷 시퀀스)을 입력받아 **룰 기반 신호 추출 → LLM 판단**으로 결함 후보를 찾고, 근거 스크린샷이 첨부된 Markdown 리포트와 자연어 질의를 제공하는 스탠드얼론 분석 도구.
+**LLM 기반 UI Element 독립 인식 프로토타입** — 게임 QA의 자동화 스크립트 작성 효율을 올리기 위한 도구.
 
-## 핵심 아이디어 — 분석은 실행과 독립이다
+게임 엔진은 일반 앱과 달리 UI 트리를 외부에 주지 않는다 (Unity/Unreal은 화면에 픽셀만 그린다).
+그래서 게임 자동화는 좌표 하드코딩과 수작업 템플릿 캡처에 묶인다. 이 도구는 그 빈자리를
+**vision + LLM으로 합성한 UI 계층**으로 채운다 — 엔진에 플러그인을 심는 침투형 접근의
+비침투(non-invasive) 대응물이다.
 
-게임 QA 자동화의 실행 스택(자동화 플랫폼·플레이 봇)은 게임·플랫폼마다 다르지만, **세션이 남긴 화면과 기록을 분석하는 레이어는 실행 방식과 무관하게 동일**할 수 있다. 이 도구는 실행을 하지 않는다 — 무엇이 플레이했든(자동화 플랫폼이든 사람이든) 그 결과를 받아 분석만 전담한다.
+## 핵심 워크플로우
 
 ```
-[입력 3경로]                          [공통 세션 포맷]         [분석 레이어]
- ① 기존 자동화 플랫폼 산출물  ─┐                            룰 기반 신호 추출 (OpenCV)
- ② PC 클라이언트 화면 캡처    ─┼─→  frames/ + manifest.json ─→  · 화면 정체(stall) 탐지
- ③ 모바일 ADB 화면 캡처      ─┘                                · 수치 급변 (OCR 시계열)
-                                                                      ↓ 후보만 선별
-                                                              LLM 판정 (Claude, 근거 첨부)
-                                                                      ↓
-                                                              report.md + 자연어 질의(ask)
+ 화면 캡처(버스트 8장)            CV 2패스 검출                LLM 라벨링 (Claude)
+ PC(mss) / 모바일(ADB)   ──→   표준 Canny + 저대비 CLAHE  ──→   역할·이름 부여
+        │                      + 시간축 안정성 마스크            unknown(비UI) 자동 제거
+        │                        (움직이는 월드 제거)                  │
+        │                                                             ↓
+        │                  ┌──────────  사람 검수·편집 (GUI)  ←───────┘
+        │                  │   오탐 삭제 · 누락 드래그 추가 · 박스 교정
+        │                  ↓
+        │           확정 라이브러리 (게임 → 화면 → 요소 트리)
+        │            · 좌표 + 템플릿 크롭 = 스크립트 작성 에셋
+        └──────→     · 다음 inspect에서 템플릿 매칭으로 자동 인식
+                     · LLM이 절대 덮어쓸 수 없는 정답 (코드 레벨 가드)
 ```
 
-설계 원칙:
+**AI가 후보를 제안하고, 사람이 정답을 소유한다.** 확정된 요소는 이후 모든 자동 인식의
+기준이 되고, LLM의 재해석은 코드에서 차단된다.
+
+## 산출물 — 스크립트 작성자가 받는 것
+
+`inspect` 한 번이 만들어내는 카탈로그:
+
+| 파일 | 용도 |
+|---|---|
+| `annotated.png` | 번호 박스 하이라이트 — 화면 지도 |
+| `elements.json` | 요소별 종류·이름·bbox·**중심 좌표** (탭 좌표 복사용) |
+| `crops/elem_NNN.png` | 요소별 크롭 — **OpenCV 템플릿 매칭 에셋 자동 생성** |
+
+## 실측 기록 (나이트 크로우 PC 클라이언트, 1616×939)
+
+- 단일 프레임 엣지 검출: 월드 오탐 포함 134개 → **시간축 안정성 마스크 적용 후 37개 (전부 실제 UI)**
+- 직선성 필터는 실측에서 기각 — 반투명 UI를 죽이고 텍스처를 못 걸러서 (임계 0.45에서 기준 UI 37→5)
+- 저대비 UI(배경과 명도차 6)는 표준 패스 미검출 → CLAHE 독립 패스로 회수
+
+## 설계 원칙
+
 - **관찰 전용** — 입력 주입 없음. 캡처는 매 호출 독립(stateless)이라 장시간 세션에서도 안 죽는다.
-- **룰이 1차, LLM은 2차** — 모든 프레임을 LLM에 넣지 않는다. OpenCV 신호 필터를 통과한 후보당 근거 3장만 LLM이 판정. 비용·오탐 통제.
-- **LLM 출력은 검증 가능한 형태로만** — 판정에는 근거 스크린샷이 항상 첨부되고, 리포트는 사람 검수를 전제로 한다.
-- **게임 추가 = config 1개** — 게임별 차이(캡처 대상 창·OCR 영역·템플릿·분석 프롬프트)는 YAML로만. 코어 코드에 게임명이 없다.
-- **API 비용 0** — LLM은 Claude Code 구독 연동(claude-agent-sdk)만 사용. 종량 과금 API key가 설정돼 있으면 실행을 거부한다.
+- **로컬이 1차, LLM은 2차** — bbox·좌표는 CV/OCR(비용 0)이 소유하고, LLM은 의미(역할·이름)만 판단한다.
+  LLM의 공간 추론에 좌표를 맡기지 않는다.
+- **확정 요소는 LLM 불가침** — 프롬프트 지시가 아니라 코드가 LLM 응답 적용을 차단한다.
+- **게임 추가 = config 1개** — 캡처 대상 창·OCR 영역·분석 프롬프트는 YAML로만. 코어 코드에 게임명이 없다.
+- **API 비용 0** — LLM은 Claude Code 구독 연동(claude-agent-sdk)만. 종량 과금 API key가 설정돼 있으면 실행을 거부한다.
 
-## Quickstart
+## 실행
 
-요구사항: Python 3.11+, [uv](https://docs.astral.sh/uv/), Claude Code(로그인 상태). 한글 출력이 깨지면 `chcp 65001`.
+요구사항: Python 3.11+, [uv](https://docs.astral.sh/uv/), Claude Code(로그인 상태 — LLM 기능용).
 
 ```powershell
 uv sync
-
-# 1) PC 게임 관찰 (관찰 전용 — 30분 플레이를 2초 간격 캡처)
-uv run companion capture --source windows --game configs\my_game.yaml --interval 2 --duration 1800
-
-# 2) 모바일 (ADB)
-uv run companion capture --source adb --game configs\my_game.yaml --interval 2 --duration 600
-
-# 3) 기존 자동화 플랫폼 산출물 변환
-uv run companion import-artifacts --src <스크린샷 디렉토리> --game-name "My Game"
-
-# 분석 + 리포트 (개발 중 드라이런은 --provider fake)
-uv run companion analyze --session sessions\<세션> --game configs\my_game.yaml
-
-# 자연어 질의
-uv run companion ask --session sessions\<세션> "플레이 중 정체 구간이 있었나?"
+uv run companion-gui     # GUI (또는 run_gui.bat 더블클릭)
 ```
 
-## 게임 config
+GUI 4탭: **캡처**(세션 기록·실시간 미리보기) / **세션·분석** / **Inspect**(요소 카탈로그 생성·편집·확정 등록) / **라이브러리**(확정 요소 트리). 트레이 상주 — 창을 닫아도 트레이에서 복원, 종료는 트레이 메뉴.
 
-```yaml
-name: "My Game"
-type: "mmorpg"
-capture:
-  window_title: "GAME WINDOW"   # PC: 창 제목 부분 일치 (suffix 변동 흡수)
-  adb_serial: null              # 모바일: 기기 시리얼 (단일 기기면 null)
-ocr_regions:                    # 선택 — 수치 추적 (uv sync --extra ocr 필요)
-  - id: "hp"
-    region: [50, 100, 300, 150]
-    numeric: true
-analysis_prompts:
-  detect_anomaly: "이 게임은 ○○ 장르다. 전투·이동·UI 흐름에서 이상 징후를 판단하라."
-```
+CLI 동등 기능: `companion capture / import-artifacts / analyze / ask / inspect` (`--help` 참조).
+OCR(텍스트 요소·수치 추적)은 선택 설치: `uv sync --extra ocr`.
+
+## 보조 기능 — 세션 분석
+
+캡처 세션(PC/모바일/기존 자동화 플랫폼 산출물)을 받아 화면 정체(stall)·수치 급변을 룰로 거르고,
+후보당 근거 3장만 LLM이 판정해 `report.md`를 만든다. 자연어 질의(`ask`) 지원.
+모든 판정에 근거 스크린샷이 첨부되고 사람 검수를 전제로 한다.
 
 ## 한계 (정직하게)
 
-- **탐지 신호는 화면 기반 휴리스틱** — 화면 정체·수치 급변 등 외형 신호만 본다. 게임 내부 상태(메모리·로그 스트림)는 모른다.
-- **LLM 판정은 보조** — 오판 가능. 그래서 모든 판정에 근거 스크린샷을 강제하고 리포트에 사람 검수 전제를 명시한다.
-- **iOS 미지원** — 비침투 캡처 통로가 없다 (Appium/WDA 계열이 필요해지는 영역).
-- **실시간 게임 부적합** — 캡처 간격(초 단위) 기반이라 프레임 단위 이슈는 못 잡는다.
-- **OCR은 선택 설치** — `uv sync --extra ocr` (PaddleOCR, 용량 큼).
+- **해상도 종속** — 좌표·템플릿은 캡처 해상도에 묶인다. 같은 게임은 같은 해상도로 쓸 것 (불일치 시 도구가 경고).
+- **가려진 창** — 화면 영역 캡처라 대상 창이 가려지면 가린 화면이 찍힌다. 캡처 중 게임을 전면에 둘 것.
+- **iOS 미지원** — 비침투 캡처 통로가 없다.
+- **LLM 판정은 보조** — 오판 가능. 그래서 확정 라이브러리와 사람 검수가 구조에 들어있다.
 
 ## 데모
 
@@ -78,7 +86,8 @@ analysis_prompts:
 ## 개발
 
 ```powershell
-uv run pytest -q   # 29 tests
+uv run pytest -q   # 70 tests
 ```
 
-AI 코딩 에이전트(Claude Code)와 협업해 개발했다. 요구사항 정의·아키텍처 선택·실기기 검증은 사람의 몫이다.
+AI 코딩 에이전트(Claude Code)와 협업해 개발했다. 요구사항 정의·아키텍처 선택·임계값 실측 튜닝·
+실기기 검증은 사람의 몫이다.
