@@ -46,13 +46,22 @@ class BoxEditor(QLabel):
         self.update()
 
     def hit_test(self, x: int, y: int) -> int:
-        """원본 좌표 (x,y)에 걸리는 요소 인덱스 — 겹치면 면적이 작은 것 우선. 없으면 -1."""
+        """원본 좌표 (x,y)에 걸리는 요소 인덱스 — 겹치면 면적이 작은 것 우선. 없으면 -1.
+
+        박스 위에 그려지는 번호 태그 영역도 클릭 대상에 포함한다.
+        """
         hits = [(i, e) for i, e in enumerate(self.elements)
                 if e.bbox[0] <= x <= e.bbox[2] and e.bbox[1] <= y <= e.bbox[3]]
-        if not hits:
-            return -1
-        return min(hits, key=lambda t: (t[1].bbox[2] - t[1].bbox[0])
-                   * (t[1].bbox[3] - t[1].bbox[1]))[0]
+        if hits:
+            return min(hits, key=lambda t: (t[1].bbox[2] - t[1].bbox[0])
+                       * (t[1].bbox[3] - t[1].bbox[1]))[0]
+        tag_w = 30 / self._scale
+        tag_h = 20 / self._scale
+        for i, e in enumerate(self.elements):
+            l, t = e.bbox[0], e.bbox[1]
+            if l <= x <= l + tag_w and t - tag_h <= y <= t:
+                return i
+        return -1
 
     # --- painting ------------------------------------------------------
     def paintEvent(self, event) -> None:  # noqa: N802 (Qt API)

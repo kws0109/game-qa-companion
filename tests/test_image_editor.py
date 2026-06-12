@@ -28,6 +28,14 @@ def test_hit_test_prefers_smaller_overlapping_box(tmp_path, make_png):
     assert ed.hit_test(390, 290) == -1  # 빈 곳
 
 
+def test_hit_test_includes_number_tag_zone(tmp_path, make_png):
+    ed = _editor_with_two_boxes(tmp_path, make_png)
+    # 큰 패널(10,10)의 번호 태그 = 박스 바로 위 좌측 — 클릭 인식돼야 함
+    assert ed.hit_test(15, 5) == 0
+    # 박스에서 먼 위쪽 빈 공간은 여전히 미인식
+    assert ed.hit_test(300, 5) == -1
+
+
 def test_load_sets_scale_for_wide_images(tmp_path, make_png):
     from PySide6.QtWidgets import QApplication
     from companion.gui.image_editor import BoxEditor

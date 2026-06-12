@@ -233,6 +233,18 @@ class InspectPanel(QWidget):
         if mode == "image" and not self.image_edit.text().strip():
             self.status.setText("이미지 파일을 선택하세요")
             return
+        # 안전장치: config 미설정 실행 차단 — 창 제목 없이 캡처하면 모니터 전체가 잡힌다
+        cfg_path = self.config_combo.currentData()
+        if not cfg_path:
+            self.status.setText("오류: 게임 config를 선택하세요 — 미설정 상태로는 실행할 수 없습니다 "
+                                "(configs/ 에 게임 yaml 추가 후 새로고침)")
+            return
+        if mode == "windows":
+            from companion.config import GameConfig
+            if not GameConfig.load(cfg_path).capture_window_title:
+                self.status.setText("오류: 이 config에 capture.window_title이 없습니다 — "
+                                    "게임 창 대신 모니터 전체가 캡처됩니다. yaml에 창 제목을 넣어주세요")
+                return
         stable = self.stable_combo.currentData()
         self._worker = FuncWorker(
             _run_inspect, self.root, mode, self.image_edit.text().strip() or None,
@@ -309,6 +321,9 @@ class InspectPanel(QWidget):
 
     def _on_editor_select(self, idx: int) -> None:
         self.table.selectRow(idx)
+        item = self.table.item(idx, 0)
+        if item:  # 선택 행이 보이도록 자동 스크롤
+            self.table.scrollToItem(item, QAbstractItemView.ScrollHint.PositionAtCenter)
 
     def _on_cell_edited(self, item) -> None:
         e = self.elements[item.row()]
