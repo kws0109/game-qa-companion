@@ -35,6 +35,18 @@ class OcrEngine:
         lines = result[0] or [] if result else []
         return " ".join(item[1][0] for item in lines)
 
+    def read_items(self, png: bytes) -> list[tuple[str, tuple[int, int, int, int]]]:
+        """텍스트와 bbox(l,t,r,b) 목록 — UI 요소 카탈로그용."""
+        img = cv2.imdecode(np.frombuffer(png, dtype=np.uint8), cv2.IMREAD_COLOR)
+        result = self._ocr.ocr(img, cls=False)
+        lines = result[0] or [] if result else []
+        items = []
+        for pts, (text, _conf) in lines:
+            xs = [int(p[0]) for p in pts]
+            ys = [int(p[1]) for p in pts]
+            items.append((text, (min(xs), min(ys), max(xs), max(ys))))
+        return items
+
 
 def crop(png: bytes, region: tuple[int, int, int, int]) -> bytes:
     img = cv2.imdecode(np.frombuffer(png, dtype=np.uint8), cv2.IMREAD_COLOR)
