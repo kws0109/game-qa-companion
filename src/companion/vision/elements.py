@@ -231,20 +231,62 @@ def detect_elements(png: bytes, ocr_engine=None,
     return elements
 
 
-def render_overlay(png: bytes, elements: list[UIElement]) -> bytes:
-    """요소 bbox + id 번호를 그린 주석 이미지 — 스크립트 작성자가 보는 지도."""
+def render_overlay(png: bytes, elements: list[UIElement],
+                   show_labels: bool = False) -> bytes:
+    """요소 bbox + id(번호)를 그린 주석 이미지 — 스크립트 작성자가 보는 지도.
+
+    show_labels=True면 번호 대신 'id. 한글 이름'을 박스 위에 표기 (요소 수가 적은 화면용).
+    한글은 cv2.putText가 못 그리므로 PIL + 시스템 폰트로 렌더링한다.
+    """
     img = _decode(png)
     for e in elements:
         l, t, r, b = e.bbox
         color = (255, 160, 0) if e.confirmed else (0, 255, 0)  # 확정=파랑, 후보=초록
         cv2.rectangle(img, (l, t), (r, b), color, 2)
-        tag = f"{e.id}"
-        (tw, th), _ = cv2.getTextSize(tag, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)
-        cv2.rectangle(img, (l, t - th - 8), (l + tw + 8, t), color, -1)
-        cv2.putText(img, tag, (l + 4, t - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
-                    (0, 0, 0), 2)
+        if not show_labels:
+            tag = f"{e.id}"
+            (tw, th), _ = cv2.getTextSize(tag, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)
+            cv2.rectangle(img, (l, t - th - 8), (l + tw + 8, t), color, -1)
+            cv2.putText(img, tag, (l + 4, t - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
+                        (0, 0, 0), 2)
+    if show_labels:
+        img = _draw_labels_pil(img, elements)
     ok, buf = cv2.imencode(".png", img)
     return buf.tobytes()
+
+
+def _load_korean_font(size: int):
+    from PIL import ImageFont
+    for path in ("malgun.ttf", "C:/Windows/Fonts/malgun.ttf",
+                 "/usr/share/fonts/truetype/nanum/NanumGothic.ttf",
+                 "/System/Library/Fonts/AppleSDGothicNeo.ttc"):
+        try:
+            return ImageFont.truetype(path, size)
+        except OSError:
+            continue
+    return ImageFont.load_default()
+
+
+def _draw_labels_pil(img: np.ndarray, elements: list[UIElement]) -> np.ndarray:
+    """박스 위에 'id. 이름' 한글 라벨을 그린다 (PIL). 폰트는 이미지 폭에 비례."""
+    from PIL import Image, ImageDraw
+    h, w = img.shape[:2]
+    pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    draw = ImageDraw.Draw(pil)
+    size = max(18, w // 80)
+    font = _load_korean_font(size)
+    for e in elements:
+        text = f"{e.id}. {e.label}" if e.label else str(e.id)
+        bg = (255, 160, 0) if e.confirmed else (0, 200, 80)
+        x, y = e.bbox[0], max(0, e.bbox[1] - size - 6)
+        box = draw.textbbox((x, y), text, font=font)
+        # 라벨이 우측 화면 밖으로 나가면 왼쪽으로 당김
+        if box[2] > w:
+            x = max(0, w - (box[2] - box[0]) - 4)
+            box = draw.textbbox((x, y), text, font=font)
+        draw.rectangle((box[0] - 3, box[1] - 2, box[2] + 3, box[3] + 2), fill=bg)
+        draw.text((x, y), text, font=font, fill=(0, 0, 0))
+    return cv2.cvtColor(np.array(pil), cv2.COLOR_RGB2BGR)
 
 
 def apply_library(png: bytes, elements: list[UIElement], library) -> list[UIElement]:

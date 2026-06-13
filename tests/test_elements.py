@@ -58,3 +58,12 @@ def test_save_inspection_writes_catalog(tmp_path: Path, make_png):
     assert data["elements"][0]["center"]
     assert (out / "crops" / "elem_001.png").exists()
     assert len(render_overlay(png, els)) > 0
+
+
+def test_render_overlay_with_korean_labels(make_png):
+    png = _two_button_frame(make_png)
+    els = detect_elements(png)
+    els[0].label = "전투 시작"
+    els[0].kind = "button"
+    out = render_overlay(png, els, show_labels=True)
+    assert len(out) > 0  # 한글 라벨 렌더링이 예외 없이 PNG를 반환

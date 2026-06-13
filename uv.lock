@@ -754,6 +754,7 @@ dependencies = [
     { name = "mss" },
     { name = "numpy" },
     { name = "opencv-python" },
+    { name = "pillow" },
     { name = "pygetwindow" },
     { name = "pyside6" },
     { name = "pyyaml" },
@@ -779,6 +780,7 @@ requires-dist = [
     { name = "opencv-python", specifier = ">=4.9" },
     { name = "paddleocr", marker = "extra == 'ocr'", specifier = ">=3.1" },
     { name = "paddlepaddle", marker = "extra == 'ocr'", specifier = ">=3.0" },
+    { name = "pillow", specifier = ">=10.0" },
     { name = "pygetwindow", specifier = ">=0.0.9" },
     { name = "pyside6", specifier = ">=6.6" },
     { name = "pyyaml", specifier = ">=6.0" },
@@ -2706,8 +2708,8 @@ name = "uvicorn"
 version = "0.49.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "click" },
-    { name = "h11" },
+    { name = "click", marker = "sys_platform != 'emscripten'" },
+    { name = "h11", marker = "sys_platform != 'emscripten'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/c4/1f/fa18009dea8469069cca78a4e877a008ab78f08b064bfc9ab891579077ff/uvicorn-0.49.0.tar.gz", hash = "sha256:ebf4271aa580d9de97f93192d4595176df6e91f9aae919ca73e4fc07df1e66a3", size = 91284, upload-time = "2026-06-03T22:01:30.448Z" }
 wheels = [
